@@ -5,6 +5,7 @@ const webpack = require('webpack');
 module.exports = {
   context: path.resolve(__dirname, './src'),
   entry: {
+    deck: './js/deck.js',
     index: './js/app.js'
   },
   output: {
