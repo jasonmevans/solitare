@@ -1,11 +1,104 @@
+body {
+  margin: 0; }
+
+body *, *::after {
+  box-sizing: border-box; }
+:root {
+  --spacing: 10px; }
+
+#dealBtn {
+  grid-row: 1;
+  grid-column: 7; }
+
+#game-board {
+  background-color: green;
+  width: 100vw;
+  height: 100vh;
+  padding: var(--spacing);
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-gap: var(--spacing); }
+  #game-board .pile::after,
+  #game-board .stack::after,
+  #game-board .deck::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 1px solid yellow;
+    border-radius: 5px; }
+  #game-board .pile,
+  #game-board .stack,
+  #game-board .deal {
+    position: relative; }
+    #game-board .pile .card,
+    #game-board .stack .card,
+    #game-board .deal .card {
+      position: absolute; }
+  #game-board .pile {
+    grid-row: 1; }
+  #game-board .stack {
+    grid-row: 3; }
+    #game-board .stack .card:nth-child(1) {
+      top: 0px;
+      z-index: 1001; }
+    #game-board .stack .card:nth-child(2) {
+      top: 30px;
+      z-index: 1002; }
+    #game-board .stack .card:nth-child(3) {
+      top: 60px;
+      z-index: 1003; }
+    #game-board .stack .card:nth-child(4) {
+      top: 90px;
+      z-index: 1004; }
+    #game-board .stack .card:nth-child(5) {
+      top: 120px;
+      z-index: 1005; }
+    #game-board .stack .card:nth-child(6) {
+      top: 150px;
+      z-index: 1006; }
+    #game-board .stack .card:nth-child(7) {
+      top: 180px;
+      z-index: 1007; }
+    #game-board .stack .card:nth-child(8) {
+      top: 210px;
+      z-index: 1008; }
+    #game-board .stack .card:nth-child(9) {
+      top: 240px;
+      z-index: 1009; }
+    #game-board .stack .card:nth-child(10) {
+      top: 270px;
+      z-index: 1010; }
+    #game-board .stack .card:nth-child(11) {
+      top: 300px;
+      z-index: 1011; }
+    #game-board .stack .card:nth-child(12) {
+      top: 330px;
+      z-index: 1012; }
+    #game-board .stack .card:nth-child(13) {
+      top: 360px;
+      z-index: 1013; }
+  #game-board .deal {
+    grid-row: 1;
+    grid-column: 6; }
+    #game-board .deal .card:nth-child(1) {
+      right: 30px;
+      z-index: 1002; }
+    #game-board .deal .card:nth-child(2) {
+      right: 15px;
+      z-index: 1001; }
+    #game-board .deal .card:nth-child(3) {
+      right: 0px;
+      z-index: 1000; }
 .card {
   width: 100%;
   height: 100%;
   background-color: white;
   border: 1px solid black;
   border-radius: 5px; }
-  .card .rank:after,
-  .card .suit:after {
+  .card .rank::after,
+  .card .suit::after {
     font-family: sans-serif;
     font-size: 24px;
     text-align: center;
@@ -14,96 +107,56 @@
     color: black; }
   .card.Heart, .card.Diamond {
     color: red; }
-  .card.Ace .rank:after {
+  .card.Ace .rank::after {
     display: block;
     content: 'A'; }
-  .card.Two .rank:after {
+  .card.Two .rank::after {
     display: block;
     content: '2'; }
-  .card.Three .rank:after {
+  .card.Three .rank::after {
     display: block;
     content: '3'; }
-  .card.Four .rank:after {
+  .card.Four .rank::after {
     display: block;
     content: '4'; }
-  .card.Five .rank:after {
+  .card.Five .rank::after {
     display: block;
     content: '5'; }
-  .card.Six .rank:after {
+  .card.Six .rank::after {
     display: block;
     content: '6'; }
-  .card.Seven .rank:after {
+  .card.Seven .rank::after {
     display: block;
     content: '7'; }
-  .card.Eight .rank:after {
+  .card.Eight .rank::after {
     display: block;
     content: '8'; }
-  .card.Nine .rank:after {
+  .card.Nine .rank::after {
     display: block;
     content: '9'; }
-  .card.Ten .rank:after {
+  .card.Ten .rank::after {
     display: block;
     content: '10'; }
-  .card.Jack .rank:after {
+  .card.Jack .rank::after {
     display: block;
     content: 'J'; }
-  .card.Queen .rank:after {
+  .card.Queen .rank::after {
     display: block;
     content: 'Q'; }
-  .card.King .rank:after {
+  .card.King .rank::after {
     display: block;
     content: 'K'; }
-  .card.Spade .suit:after {
+  .card.Spade .suit::after {
     display: block;
     content: '\2660'; }
-  .card.Heart .suit:after {
+  .card.Heart .suit::after {
     display: block;
     content: '\2665'; }
-  .card.Club .suit:after {
+  .card.Club .suit::after {
     display: block;
     content: '\2663'; }
-  .card.Diamond .suit:after {
+  .card.Diamond .suit::after {
     display: block;
     content: '\2666'; }
-body {
-  margin: 0; }
-:root {
-  --spacing: 10px; }
-
-#game-board {
-  background-color: green;
-  width: 100vw;
-  height: 100vh;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  grid-gap: var(--spacing); }
-  #game-board .ace:after,
-  #game-board .stack:after,
-  #game-board .deck:after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 100%;
-    border: 1px solid yellow; }
-  #game-board .ace {
-    grid-row: 1; }
-  #game-board .stack {
-    grid-row: 2; }
-  #game-board .deal {
-    grid-row: 1;
-    grid-column: 7;
-    position: relative; }
-    #game-board .deal .card {
-      position: absolute; }
-    #game-board .deal .card:nth-child(1) {
-      right: 30px;
-      z-index: 1001; }
-    #game-board .deal .card:nth-child(2) {
-      right: 15px;
-      z-index: 1000; }
-    #game-board .deal .card:nth-child(3) {
-      right: 0px;
-      z-index: 999; }
 
 /*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiIuL2luZGV4LXN0eWxlLmNzcyIsInNvdXJjZVJvb3QiOiIifQ==*/
