@@ -1,6 +1,7 @@
 import { default as Card } from './Card';
 
 const Symbols = {
+  all: Symbol('all'),
   CardClass: Symbol('CardClass')
 };
 
@@ -48,6 +49,9 @@ export default class CardCollection extends Array {
   }
 
   deal(n) {
+    if (n === Symbols.all) {
+      return this.splice(0);
+    }
     return this.splice(0, n); // deal n cards off the top
   }
 

@@ -8,18 +8,27 @@ export default class Solitare {
   }
 
   deal() {
+    this.board.clear();
+
+    let deckEl = this.board[GameBoard.Symbols.deck];
     let dealEl = this.board[GameBoard.Symbols.deal];
     let stacks = this.board[GameBoard.Symbols.stacks];
 
-    this.deck = new CardDeck().shuffle().map(card => {
-      card.el.setAttribute('draggable', true);
-      return card;
-    });
+    this.deck = new CardDeck().shuffle();
 
-    this.deck.deal(3).forEach(card => dealEl.appendChild(card.el));
+    this.deck.deal(3).revealAll().forEach(card => dealEl.appendChild(card.el));
 
     stacks.forEach((stack, index) => {
-      this.deck.deal(index+1).forEach(card => stack.appendChild(card.el));
+      this.deck.deal(index+1).forEach((card, i) => {
+        if (i === index) {
+          card.reveal();
+        }
+        stack.appendChild(card.el);
+      });
+    });
+
+    this.deck.deal(CardDeck.Symbols.all).forEach((card, index, cards) => {
+      deckEl.appendChild(card.el);
     });
 
   }

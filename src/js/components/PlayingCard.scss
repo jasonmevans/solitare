@@ -5,8 +5,17 @@
   border: 1px solid black;
   border-radius: 5px;
 
-  & .rank::after,
-  & .suit::after {
+  &.hidden {
+    background-color: black;
+    border: 1px solid white;
+    .rank,
+    .suit {
+      display: none;
+    }
+  }
+
+  .rank::after,
+  .suit::after {
     font-family: sans-serif;
     font-size: 24px;
     text-align: center;

@@ -8,6 +8,7 @@ export default class PlayingCard extends Card {
 
     const cardEl = document.createElement('div');
     cardEl.classList.add('card', this.rank, this.suit);
+    cardEl.id = `${this.rank}-of-${this.suit}s`;
 
     const suitEl = document.createElement('span');
     suitEl.classList.add('suit');
@@ -19,8 +20,24 @@ export default class PlayingCard extends Card {
 
     cardEl.playingCard = this;
     this.el = cardEl;
+
+    this.conceal();
   }
 
+  reveal() {
+    this.el.classList.remove('hidden');
+    this.el.setAttribute('draggable', true);
+    return this;
+  }
+  conceal() {
+    this.el.classList.add('hidden');
+    this.el.removeAttribute('draggable');
+    return this;
+  }
+
+  static get [Symbol.species]() {
+      return this;
+  }
   get [Symbol.toStringTag]() {
     return 'PlayingCard: ' + this;
   }

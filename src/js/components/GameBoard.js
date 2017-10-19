@@ -2,6 +2,7 @@ import './GameBoard.scss';
 
 const Symbols = {
   board: Symbol('board'),
+  deck: Symbol('deck'),
   deal: Symbol('deal'),
   stacks: Symbol('stacks'),
   piles: Symbol('piles')
@@ -17,6 +18,9 @@ export default class GameBoard {
 
   get [Symbols.board]() {
     return document.querySelector('#game-board');
+  }
+  get [Symbols.deck]() {
+    return document.querySelector('#deck');
   }
   get [Symbols.deal]() {
     return document.querySelector('#deal');

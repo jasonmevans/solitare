@@ -6,10 +6,6 @@ body *, *::after {
 :root {
   --spacing: 10px; }
 
-#dealBtn {
-  grid-row: 1;
-  grid-column: 7; }
-
 #game-board {
   background-color: green;
   width: 100vw;
@@ -30,11 +26,13 @@ body *, *::after {
     border-radius: 5px; }
   #game-board .pile,
   #game-board .stack,
-  #game-board .deal {
+  #game-board .deal,
+  #game-board .deck {
     position: relative; }
     #game-board .pile .card,
     #game-board .stack .card,
-    #game-board .deal .card {
+    #game-board .deal .card,
+    #game-board .deck .card {
       position: absolute; }
   #game-board .pile {
     grid-row: 1; }
@@ -91,12 +89,21 @@ body *, *::after {
     #game-board .deal .card:nth-child(3) {
       right: 0px;
       z-index: 1000; }
+  #game-board .deck {
+    grid-row: 1;
+    grid-column: 7; }
 .card {
   width: 100%;
   height: 100%;
   background-color: white;
   border: 1px solid black;
   border-radius: 5px; }
+  .card.hidden {
+    background-color: black;
+    border: 1px solid white; }
+    .card.hidden .rank,
+    .card.hidden .suit {
+      display: none; }
   .card .rank::after,
   .card .suit::after {
     font-family: sans-serif;

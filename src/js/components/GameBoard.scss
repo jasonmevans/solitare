@@ -2,11 +2,6 @@
   --spacing: 10px;
 }
 
-#dealBtn {
-  grid-row: 1;
-  grid-column: 7;
-}
-
 #game-board {
   background-color: green;
   width: 100vw;
@@ -32,7 +27,8 @@
 
   .pile,
   .stack,
-  .deal {
+  .deal,
+  .deck {
     position: relative;
 
     .card {
@@ -69,6 +65,9 @@
       right: 0px;
       z-index: 1000;
     }
-
+  }
+  .deck {
+    grid-row: 1;
+    grid-column: 7;
   }
 }
