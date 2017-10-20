@@ -1,3 +1,4 @@
+import { default as Logger } from './Logger';
 import { default as CardDeck } from 'Components/CardDeck';
 import { default as GameBoard } from 'Components/GameBoard';
 

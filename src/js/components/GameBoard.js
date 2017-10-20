@@ -1,5 +1,6 @@
 import './GameBoard.scss';
 
+import { default as Logger } from '../Logger';
 const Symbols = {
   board: Symbol('board'),
   deck: Symbol('deck'),
