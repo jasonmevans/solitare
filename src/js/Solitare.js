@@ -4,7 +4,7 @@ import { default as GameBoard } from 'Components/GameBoard';
 
 export default class Solitare {
   constructor() {
-    this.board = new GameBoard();
+    this.board = new GameBoard(this.rules);
     this.deal();
   }
 
@@ -20,7 +20,7 @@ export default class Solitare {
     this.deck.deal(3).revealAll().forEach(card => dealEl.appendChild(card.el));
 
     stacks.forEach((stack, index) => {
-      this.deck.deal(index+1).forEach((card, i) => {
+      this.deck.deal(index + 1).forEach((card, i) => {
         if (i === index) {
           card.reveal();
         }
@@ -32,6 +32,16 @@ export default class Solitare {
       deckEl.appendChild(card.el);
     });
 
+  }
+
+  get rules() {
+    return {
+      drop: {
+        pile: (dragCard, dropEl) => {
+          return +dragCard === 1;
+        }
+      }
+    };
   }
 
 }

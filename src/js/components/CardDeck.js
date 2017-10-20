@@ -19,6 +19,6 @@ export default class CardDeck extends CardCollection {
       return this;
   }
   get [Symbol.toStringTag]() {
-    return 'CardCollection';
+    return 'CardDeck';
   }
 }
