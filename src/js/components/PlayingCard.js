@@ -2,20 +2,24 @@ import './PlayingCard.scss';
 
 import { default as Card } from '../Card';
 
+const Symbols = {
+  red: Symbol('red'),
+  black: Symbol('black')
+};
+
 export default class PlayingCard extends Card {
   constructor() {
     super(...arguments);
 
     const cardEl = document.createElement('div');
-    cardEl.classList.add('card', this.rank, this.suit);
-    cardEl.id = `${this.rank}-of-${this.suit}s`;
-
     const suitEl = document.createElement('span');
-    suitEl.classList.add('suit');
-    cardEl.appendChild(suitEl);
-
     const rankEL = document.createElement('span');
+
+    cardEl.classList.add('card');
+    suitEl.classList.add('suit');
     rankEL.classList.add('rank');
+
+    cardEl.appendChild(suitEl);
     cardEl.appendChild(rankEL);
 
     cardEl.playingCard = this;
@@ -24,13 +28,27 @@ export default class PlayingCard extends Card {
     this.conceal();
   }
 
+  get color() {
+    return this.suits.indexOf(this.suit) % 2 === 0 ? Symbols.black : Symbols.red;
+  }
+
+  hidden() {
+    return this.el.classList.contains('hidden');
+  }
+
   reveal() {
     this.el.classList.remove('hidden');
+    this.el.classList.add(this.rank, this.suit);
+
+    this.el.setAttribute('id', `${this.rank}-of-${this.suit}s`);
     this.el.setAttribute('draggable', true);
     return this;
   }
   conceal() {
+    this.el.classList.forEach(cls => (cls !== 'card') && this.el.classList.remove(cls));
     this.el.classList.add('hidden');
+
+    this.el.removeAttribute('id');
     this.el.removeAttribute('draggable');
     return this;
   }
@@ -40,6 +58,10 @@ export default class PlayingCard extends Card {
   }
   get [Symbol.toStringTag]() {
     return 'PlayingCard: ' + this;
+  }
+
+  static get Symbols() {
+    return Symbols;
   }
 
   static get ranks() {
@@ -61,8 +83,8 @@ export default class PlayingCard extends Card {
   }
   static get suits() {
     return [
-      'Heart',
       'Spade',
+      'Heart',
       'Club',
       'Diamond'
     ];
