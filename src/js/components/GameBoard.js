@@ -146,6 +146,18 @@ export default class GameBoard {
 
     if (dropPile) {
       dropPile.appendChild(cardEl);
+      return;
+    }
+
+    let cardStacks = Array.from(this[Symbols.stacks]);
+    let dropStack = cardStacks.find(stack => {
+      let topCard = stack.lastChild ? stack.lastChild.playingCard : null;
+      return this.rules.drop.stack(cardEl.playingCard, topCard);
+    });
+
+    if (dropStack) {
+      dropStack.appendChild(cardEl);
+      return;
     }
   }
 
