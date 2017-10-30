@@ -11,40 +11,163 @@ const Symbols = {
 };
 
 export default class GameBoard {
-  constructor(rules, draggable = true) {
-    this[Symbols.board].addEventListener('drop', (e) => {
-      const dragCard = document.getElementById(e.dataTransfer.getData('text'));
-      const dropType = getDropTargetType(e.target);
-      const canDrop = rules.drop[dropType](dragCard.playingCard, e.target);
+  constructor(rules, deck, draggable = true) {
+    if (!draggable) return;
 
-      // console.log(dropType, canDrop, dragCard, e.target);
-      Logger.log(`Attempt to drop ${dragCard.id} on ${e.target.id}`);
+    this.el = document.querySelector('#game-board');
 
-      if (canDrop) {
-        getDropContainer(e.target).appendChild(dragCard);
+    deck.forEach(card => {
+      this[Symbols.deck].appendChild(card.el);
+    });
+
+    this[Symbols.deck].addEventListener('click', (e) => {
+      e.stopPropagation();
+
+      const deckEl = this[Symbols.deck];
+      const dealEl = this[Symbols.deal];
+
+      if (deckEl.hasChildNodes()) {
+        this.flip(this.deal(3));
+      } else {
+        // move all cards from #deal to #deck
+        Array.from(dealEl.childNodes)
+        .reverse() // must reverse the stack of cards as you would flip the deal set over
+        .forEach(node => {
+          node.playingCard.conceal();
+          dealEl.removeChild(node);
+          deckEl.appendChild(node);
+        });
+        Logger.log('Turned over the deck...');
       }
     });
 
-    function getDropContainer(el) {
-      return el.classList.contains('card') ? el.parentNode : el;
-    }
-    function getDropTargetType(targetEl) {
-      if (targetEl.classList.contains('card')) {
-        return 'card';
-      }
-      if (targetEl.classList.contains('stack')) {
-        return 'stack';
-      }
-      if (targetEl.classList.contains('pile')) {
-        return 'pile';
-      }
-      throw new Error(`Cannot resolve drop target type`);
-    }
+    this[Symbols.stacks].forEach(stackEl => {
+      stackEl.addEventListener('click', (e) => {
+        e.stopPropagation();
 
+        const cardEl = e.target;
+        if (!cardEl.isSameNode(stackEl.lastChild)) {
+          return;
+        }
+
+        const card = cardEl.playingCard;
+        // todo: maybe can reveal without checking if hidden
+        if (card.hidden()) {
+          card.reveal();
+          Logger.log(`Revealed [${card}]`);
+        }
+      });
+      stackEl.addEventListener('dragstart', (e) => {
+        if (!e.target.isSameNode(stackEl.lastChild)) {
+          e.stopPropagation();
+
+          let cardEls = [e.target];
+
+          let cardEl = e.target;
+          while (cardEl.nextSibling) {
+            cardEls.push(cardEl.nextSibling);
+            cardEl = cardEls[cardEls.length-1];
+          }
+
+          e.dataTransfer.setData('text', cardEls.map(cardEl => cardEl.id).join('|'));
+          Logger.log(`Dragging multiple cards [${cardEls.map(cardEl => cardEl.playingCard).join(', ')}]`);
+        }
+      });
+      stackEl.addEventListener('drop', (e) => {
+        try {
+          const cardIds = e.dataTransfer.getData('text');
+          const dragCards = this.getCardEls(cardIds).map(cardEl => cardEl.playingCard);
+          const topCard = stackEl.hasChildNodes() ? stackEl.lastChild.playingCard : null;
+
+          if (rules.drop.stack(dragCards[0], topCard)) {
+            dragCards.forEach(card => stackEl.appendChild(card.el));
+            Logger.log(`Dropped [${dragCards.join(', ')}] on ${stackEl.id}`);
+          }
+
+        } catch (err) {
+          Logger.error(err, e.target);
+        }
+      });
+    });
+
+    this[Symbols.piles].forEach(pileEl => {
+      pileEl.addEventListener('drop', (e) => {
+        try {
+          const cardId = e.dataTransfer.getData('text');
+          const dragCard = document.getElementById(cardId).playingCard;
+          const topCard = pileEl.hasChildNodes() ? pileEl.lastChild.playingCard : null;
+
+          if (rules.drop.pile(dragCard, topCard)) {
+            pileEl.appendChild(dragCard.el);
+            Logger.log(`Dropped [${dragCard}] on ${pileEl.id}`);
+          }
+
+        } catch (err) {
+          Logger.error(err, e.target);
+        }
+      });
+    });
+
+    this.el.addEventListener('drop', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    });
+    this.el.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    });
+
+    this.el.addEventListener('dragstart', (e) => {
+      Logger.log(`Dragging card [${e.target.playingCard}]`);
+      e.dataTransfer.setData('text', e.target.id);
+    });
+
+    this.el.addEventListener('dragend', (e) => {
+      e.dataTransfer.clearData();
+    });
+
+  }
+
+  setup() {
+    this[Symbols.stacks].forEach((stack, index) => {
+      this.deal(index + 1).forEach((card, i) => {
+        if (i === index) {
+          card.playingCard.reveal();
+        }
+        stack.appendChild(card);
+      });
+    });
+
+    Logger.log('--------------------------------------------');
+
+    this.flip(this.deal(3));
+  }
+
+  getCardEls(cardIds, delim = '|') {
+    const query = cardIds.split(delim).map(id => '#'+id).join(',');
+    return Array.from(this.el.querySelectorAll(query));
+  }
+
+  deal(n) {
+    const deckEl = this[Symbols.deck];
+    const cards = [];
+    for (let i = 0; i < n && deckEl.hasChildNodes(); i++ ) {
+      cards.push(deckEl.removeChild(deckEl.lastChild));
+    }
+    Logger.log(`Dealing cards: [${cards.map(card => card.playingCard).join(', ')}]`);
+    return cards;
+  }
+
+  flip(cards) {
+    const dealEl = this[Symbols.deal];
+    cards.forEach(card => {
+      dealEl.appendChild(card.playingCard.reveal().el);
+    });
   }
 
   clear() {
     this[Symbols.cards].forEach(card => card.parentNode.remove(card));
+    Logger.log(`Cleared the board!`);
   }
 
   static get Symbols() {
@@ -52,21 +175,18 @@ export default class GameBoard {
   }
 
   get [Symbols.cards]() {
-    return document.querySelectorAll('.card');
-  }
-  get [Symbols.board]() {
-    return document.querySelector('#game-board');
+    return this.el.querySelectorAll('.card');
   }
   get [Symbols.deck]() {
-    return document.querySelector('#deck');
+    return this.el.querySelector('#deck');
   }
   get [Symbols.deal]() {
-    return document.querySelector('#deal');
+    return this.el.querySelector('#deal');
   }
   get [Symbols.stacks]() {
-    return document.querySelectorAll('.stack');
+    return this.el.querySelectorAll('.stack');
   }
   get [Symbols.piles]() {
-    return document.querySelectorAll('.pile');
+    return this.el.querySelectorAll('.pile');
   }
 }

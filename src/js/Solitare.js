@@ -4,41 +4,36 @@ import { default as GameBoard } from 'Components/GameBoard';
 
 export default class Solitare {
   constructor() {
-    this.board = new GameBoard(this.rules);
-    this.deal();
-  }
-
-  deal() {
-    this.board.clear();
-
-    let deckEl = this.board[GameBoard.Symbols.deck];
-    let dealEl = this.board[GameBoard.Symbols.deal];
-    let stacks = this.board[GameBoard.Symbols.stacks];
-
     this.deck = new CardDeck().shuffle();
-
-    this.deck.deal(3).revealAll().forEach(card => dealEl.appendChild(card.el));
-
-    stacks.forEach((stack, index) => {
-      this.deck.deal(index + 1).forEach((card, i) => {
-        if (i === index) {
-          card.reveal();
-        }
-        stack.appendChild(card.el);
-      });
-    });
-
-    this.deck.deal(CardDeck.Symbols.all).forEach((card, index, cards) => {
-      deckEl.appendChild(card.el);
-    });
-
+    this.board = new GameBoard(this.rules, this.deck);
+    this.board.setup();
   }
 
   get rules() {
     return {
+      drag: {
+        stack: (card, topCard) => {
+          return card === topCard;
+        },
+        pile: (card, topCard) => {
+          return card === topCard;
+        },
+        deal: (card, topCard) => {
+          return card === topCard;
+        }
+      },
       drop: {
-        pile: (dragCard, dropEl) => {
-          return +dragCard === 1;
+        stack: (dragCard, topCard) => {
+          if (topCard) {
+            return +dragCard === +topCard - 1 && dragCard.color !== topCard.color;
+          }
+          return +dragCard === 13; // must be a king
+        },
+        pile: (dragCard, topCard) => {
+          if (topCard) {
+            return +dragCard === +topCard + 1 && dragCard.suit === topCard.suit;
+          }
+          return +dragCard === 1; // must be an ace
         }
       }
     };

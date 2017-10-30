@@ -29,7 +29,8 @@ export default class PlayingCard extends Card {
   }
 
   get color() {
-    return this.suits.indexOf(this.suit) % 2 === 0 ? Symbols.black : Symbols.red;
+    let suitMod = this.constructor.suits.indexOf(this.suit) % 2;
+    return suitMod === 0 ? Symbols.black : Symbols.red;
   }
 
   hidden() {
@@ -45,7 +46,11 @@ export default class PlayingCard extends Card {
     return this;
   }
   conceal() {
-    this.el.classList.forEach(cls => (cls !== 'card') && this.el.classList.remove(cls));
+    Array.from(this.el.classList).forEach(cls => {
+      if (cls !== 'card') {
+        this.el.classList.remove(cls);
+      }
+    });
     this.el.classList.add('hidden');
 
     this.el.removeAttribute('id');

@@ -25,19 +25,42 @@
     border-radius: 5px;
   }
 
+  .card {
+    position: absolute;
+  }
   .pile,
   .stack,
   .deal,
   .deck {
     position: relative;
-
-    .card {
-      position: absolute;
-    }
   }
 
   .pile {
     grid-row: 1;
+
+    &#pile-spade::after,
+    &#pile-heart::after,
+    &#pile-club::after,
+    &#pile-diamond::after {
+      color: rgba(255, 255, 0, 0.25);
+      font-size: 72px;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    &#pile-spade::after {
+      content: '\2664';
+    }
+    &#pile-heart::after {
+      content: '\2661';
+    }
+    &#pile-club::after {
+      content: '\2667';
+    }
+    &#pile-diamond::after {
+      content: '\2662';
+    }
   }
   .stack {
     grid-row: 3;
@@ -53,17 +76,17 @@
     grid-row: 1;
     grid-column: 6;
 
-    .card:nth-child(1) {
+    .card:nth-child(3n+1) {
       right: 30px;
-      z-index: 1002;
+      // z-index: 1000;
     }
-    .card:nth-child(2) {
+    .card:nth-child(3n+2) {
       right: 15px;
-      z-index: 1001;
+      // z-index: 1001;
     }
-    .card:nth-child(3) {
+    .card:nth-child(3n+3) {
       right: 0px;
-      z-index: 1000;
+      // z-index: 1002;
     }
   }
   .deck {
