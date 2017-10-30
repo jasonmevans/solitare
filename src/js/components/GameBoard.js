@@ -14,6 +14,7 @@ export default class GameBoard {
   constructor(rules, deck, draggable = true) {
     if (!draggable) return;
 
+    this.rules = rules;
     this.el = document.querySelector('#game-board');
 
     deck.forEach(card => {
@@ -126,6 +127,26 @@ export default class GameBoard {
       e.dataTransfer.clearData();
     });
 
+
+    this.el.addEventListener('dblclick', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.target.classList.contains('card') && !e.target.playingCard.hidden) {
+        this.autoPlaceCard(e.target);
+      }
+    });
+  }
+
+  autoPlaceCard(cardEl) {
+    let cardPiles = Array.from(this[Symbols.piles]);
+    let dropPile = cardPiles.find(pile => {
+      let topCard = pile.lastChild ? pile.lastChild.playingCard : null;
+      return this.rules.drop.pile(cardEl.playingCard, topCard);
+    });
+
+    if (dropPile) {
+      dropPile.appendChild(cardEl);
+    }
   }
 
   setup() {
