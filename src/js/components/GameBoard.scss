@@ -68,7 +68,6 @@
     @for $i from 1 through 13 {
       .card:nth-child(#{$i}) {
         top: ($i - 1) * 30px;
-        z-index: 1000 + $i;
       }
     }
   }
