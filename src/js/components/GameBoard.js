@@ -52,7 +52,7 @@ export default class GameBoard {
 
         const card = cardEl.playingCard;
         // todo: maybe can reveal without checking if hidden
-        if (card.hidden()) {
+        if (card.hidden) {
           card.reveal();
           Logger.log(`Revealed [${card}]`);
         }

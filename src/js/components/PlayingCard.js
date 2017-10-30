@@ -33,7 +33,7 @@ export default class PlayingCard extends Card {
     return suitMod === 0 ? Symbols.black : Symbols.red;
   }
 
-  hidden() {
+  get hidden() {
     return this.el.classList.contains('hidden');
   }
 
