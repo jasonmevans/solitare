@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const board = document.querySelector('#game-board');
 
-  const deck = new CardDeck().shuffle();
+  const deck = new CardDeck().revealAll();
 
   deck.forEach(card => board.appendChild(card.el));
 
