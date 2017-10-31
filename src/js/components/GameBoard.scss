@@ -70,22 +70,34 @@
         top: ($i - 1) * 30px;
       }
     }
+
+    .card.show {
+      margin-top: -10px;
+    }
+    .card.show + .card {
+      margin-top: 10px;
+    }
   }
   .deal {
     grid-row: 1;
     grid-column: 6;
 
-    .card:nth-child(3n+1) {
-      right: 40px;
-      // z-index: 1000;
+    .card {
+      transition-property: right;
+      transition-duration: 0.25s;
+      transition-timing-function: ease-in-out;
     }
-    .card:nth-child(3n+2) {
-      right: 20px;
-      // z-index: 1001;
-    }
-    .card:nth-child(3n+3) {
+    .card:nth-last-child(3n+1) {
       right: 0px;
-      // z-index: 1002;
+    }
+    .card:nth-last-child(3n+2) {
+      right: 20px;
+    }
+    .card:nth-last-child(3n+3) {
+      right: 40px;
+    }
+    .card:nth-last-child(n+4) {
+      right: 0px;
     }
   }
   .deck {
