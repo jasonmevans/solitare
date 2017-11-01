@@ -1,9 +1,10 @@
-const webpack = require('webpack');
 const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = function(config) {
   config.set({
-    browsers: ['PhantomJS'],
+    browsers: ['Chrome'],
     frameworks: ['jasmine', 'jasmine-matchers', 'babel-polyfill'],
     reporters: ['spec', 'coverage-istanbul'],
 
@@ -36,7 +37,7 @@ module.exports = function(config) {
               options: {
                 plugins: [
                   ['transform-builtin-extend', {
-                      globals: ['Error']
+                      globals: ['Error', 'Array']
                   }]
                 ],
                 presets: ['env']
@@ -55,12 +56,21 @@ module.exports = function(config) {
               }
             },
             exclude: /node_modules|test|dist/
+          },
+          {
+            test: /\.(scss|sass)$/,
+            use: ['style-loader', 'css-loader', 'sass-loader']
+          },
+          {
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader']
           }
         ]
       },
       resolve: {
         alias: {
-          Src: '../src'
+          Src: '../src/js',
+          Components: './components'
         }
       }
     },
