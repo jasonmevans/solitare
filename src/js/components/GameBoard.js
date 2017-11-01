@@ -117,20 +117,18 @@ export default class GameBoard {
       e.preventDefault();
       e.stopPropagation();
     });
-
     this.el.addEventListener('dragstart', (e) => {
       Logger.log(`Dragging card [${e.target.playingCard}]`);
       e.dataTransfer.setData('text', e.target.id);
     });
-
     this.el.addEventListener('dragend', (e) => {
       e.dataTransfer.clearData();
     });
 
-
     this.el.addEventListener('dblclick', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
+      if (document.elementFromPoint(e.x, e.y).parentNode.isSameNode(this[Symbols.deck])) {
+        return false;
+      }
       if (e.target.classList.contains('card') && !e.target.playingCard.hidden) {
         this.autoPlaceCard(e.target);
       }
@@ -161,7 +159,7 @@ export default class GameBoard {
     }
   }
 
-  setup() {
+  init() {
     this[Symbols.stacks].forEach((stack, index) => {
       this.deal(index + 1).forEach((card, i) => {
         if (i === index) {

@@ -6,7 +6,7 @@ export default class Solitare {
   constructor() {
     this.deck = new CardDeck().shuffle();
     this.board = new GameBoard(this.rules, this.deck);
-    this.board.setup();
+    this.board.init();
   }
 
   get rules() {

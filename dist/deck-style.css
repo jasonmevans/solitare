@@ -31,6 +31,15 @@ body *, *::after {
   #game-board .deal,
   #game-board .deck {
     position: relative; }
+  #game-board .deck::after,
+  #game-board .stack::after {
+    content: '\25EF';
+    color: rgba(255, 255, 0, 0.25);
+    font-size: 72px;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
   #game-board .pile {
     grid-row: 1; }
     #game-board .pile#pile-spade::after, #game-board .pile#pile-heart::after, #game-board .pile#pile-club::after, #game-board .pile#pile-diamond::after {
@@ -76,14 +85,24 @@ body *, *::after {
       top: 330px; }
     #game-board .stack .card:nth-child(13) {
       top: 360px; }
+    #game-board .stack .card.show {
+      margin-top: -10px; }
+    #game-board .stack .card.show + .card {
+      margin-top: 10px; }
   #game-board .deal {
     grid-row: 1;
     grid-column: 6; }
-    #game-board .deal .card:nth-child(3n+1) {
-      right: 40px; }
-    #game-board .deal .card:nth-child(3n+2) {
+    #game-board .deal .card {
+      transition-property: right;
+      transition-duration: 0.25s;
+      transition-timing-function: ease-in-out; }
+    #game-board .deal .card:nth-last-child(3n+1) {
+      right: 0px; }
+    #game-board .deal .card:nth-last-child(3n+2) {
       right: 20px; }
-    #game-board .deal .card:nth-child(3n+3) {
+    #game-board .deal .card:nth-last-child(3n+3) {
+      right: 40px; }
+    #game-board .deal .card:nth-last-child(n+4) {
       right: 0px; }
   #game-board .deck {
     grid-row: 1;
