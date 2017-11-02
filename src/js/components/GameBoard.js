@@ -60,6 +60,9 @@ export default class GameBoard {
         }
       });
       stackEl.addEventListener('dragstart', (e) => {
+        // This handler takes care of dragging multiple cards on stacks. The
+        // default dragstart handler takes care of dragging single cards on
+        // all containers.
         if (!e.target.isSameNode(stackEl.lastChild)) {
           e.stopPropagation();
 
