@@ -128,7 +128,8 @@ export default class GameBoard {
     });
 
     this.el.addEventListener('dblclick', (e) => {
-      if (document.elementFromPoint(e.x, e.y).parentNode.isSameNode(this[Symbols.deck])) {
+      const dblClickContainer = document.elementFromPoint(e.x, e.y).parentNode;
+      if (dblClickContainer.isSameNode(this[Symbols.deck])) {
         return false;
       }
       if (e.target.classList.contains('card') && !e.target.playingCard.hidden) {
