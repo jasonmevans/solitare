@@ -35,6 +35,11 @@ export default class Solitare {
           }
           return +dragCard === 1; // must be an ace
         }
+      },
+      win(piles = []) {
+        return piles.every(pile => {
+          return pile.childNodes.length == 13;
+        });
       }
     };
   }
