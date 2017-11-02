@@ -14,6 +14,8 @@ export default class GameBoard {
   constructor(rules, deck, draggable = true) {
     if (!draggable) return;
 
+    this.setupDOM();
+
     this.rules = rules;
     this.el = document.querySelector('#game-board');
 
@@ -199,6 +201,27 @@ export default class GameBoard {
   clear() {
     this[Symbols.cards].forEach(card => card.parentNode.remove(card));
     Logger.log(`Cleared the board!`);
+  }
+
+  setupDOM() {
+    const board = document.createElement('div');
+    board.setAttribute('id', 'game-board');
+    document.body.appendChild(board);
+
+    function appendNode(parent, cls, id) {
+      const node = document.createElement('div');
+      node.setAttribute('id', id);
+      if (cls instanceof Array) {
+        cls.forEach(c => node.classList.add(c || id));
+      } else {
+        node.classList.add(cls || id);
+      }
+      parent.appendChild(node);
+    }
+
+    ['pile-spade', 'pile-heart', 'pile-club', 'pile-diamond'].forEach(appendNode.bind(null, board, ['pile', 'card-container']));
+    ['deck', 'deal'].forEach(appendNode.bind(null, board, [null, 'card-container'])); // yeah this is weird... to-do clean this up.
+    ['stack-1', 'stack-2', 'stack-3', 'stack-4', 'stack-5', 'stack-6', 'stack-7'].forEach(appendNode.bind(null, board, ['stack', 'card-container']));
   }
 
   static get Symbols() {
