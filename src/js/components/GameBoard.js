@@ -37,7 +37,6 @@ export default class GameBoard {
         .reverse() // must reverse the stack of cards as you would flip the deal set over
         .forEach(node => {
           node.playingCard.conceal();
-          dealEl.removeChild(node);
           deckEl.appendChild(node);
         });
         Logger.log('Turned over the deck...');
