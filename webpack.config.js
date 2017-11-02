@@ -67,6 +67,7 @@ module.exports = {
     }
   },
   devServer: {
+    host: '0.0.0.0',
     contentBase: path.resolve(__dirname, './dist')
   },
   devtool: '#inline-source-map' // inline since this is just a dev project, not intended for prod
