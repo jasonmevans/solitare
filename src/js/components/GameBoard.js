@@ -77,36 +77,40 @@ export default class GameBoard {
         }
       });
       stackEl.addEventListener('drop', (e) => {
-        try {
-          const cardIds = e.dataTransfer.getData('text');
-          const dragCards = this.getCardEls(cardIds).map(cardEl => cardEl.playingCard);
-          const topCard = stackEl.hasChildNodes() ? stackEl.lastChild.playingCard : null;
+        const cardIds = e.dataTransfer.getData('text');
+        const dragCards = this.getCardEls(cardIds).map(cardEl => cardEl.playingCard);
+        const topCard = stackEl.hasChildNodes() ? stackEl.lastChild.playingCard : null;
 
-          if (rules.drop.stack(dragCards[0], topCard)) {
-            dragCards.forEach(card => stackEl.appendChild(card.el));
-            Logger.log(`Dropped [${dragCards.join(', ')}] on ${stackEl.id}`);
-          }
-
-        } catch (err) {
-          Logger.error(err, e.target);
+        if (rules.drop.stack(dragCards[0], topCard)) {
+          dragCards.forEach(card => stackEl.appendChild(card.el));
+          Logger.log(`Dropped [${dragCards.join(', ')}] on ${stackEl.id}`);
         }
       });
+
+      stackEl.addEventListener('mouseover', (e) => {
+        const el = e.target;
+        if (el.classList.contains('card') && !el.isSameNode(stackEl.lastChild) && !el.playingCard.hidden) {
+          el.classList.add('show');
+        }
+      });
+      stackEl.addEventListener('mouseout', (e) => {
+        const el = e.target;
+        if (el.classList.contains('card') && !el.isSameNode(stackEl.lastChild) && !el.playingCard.hidden) {
+          el.classList.remove('show');
+        }
+      });
+
     });
 
     this[Symbols.piles].forEach(pileEl => {
       pileEl.addEventListener('drop', (e) => {
-        try {
-          const cardId = e.dataTransfer.getData('text');
-          const dragCard = document.getElementById(cardId).playingCard;
-          const topCard = pileEl.hasChildNodes() ? pileEl.lastChild.playingCard : null;
+        const cardId = e.dataTransfer.getData('text');
+        const dragCard = document.getElementById(cardId).playingCard;
+        const topCard = pileEl.hasChildNodes() ? pileEl.lastChild.playingCard : null;
 
-          if (rules.drop.pile(dragCard, topCard)) {
-            pileEl.appendChild(dragCard.el);
-            Logger.log(`Dropped [${dragCard}] on ${pileEl.id}`);
-          }
-
-        } catch (err) {
-          Logger.error(err, e.target);
+        if (rules.drop.pile(dragCard, topCard)) {
+          pileEl.appendChild(dragCard.el);
+          Logger.log(`Dropped [${dragCard}] on ${pileEl.id}`);
         }
       });
     });
