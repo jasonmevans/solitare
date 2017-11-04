@@ -1,11 +1,37 @@
+.Spade {
+  --open-glyph: '\2664';
+  --closed-glyph: '\2660';
+}
+.Heart {
+  --open-glyph: '\2661';
+  --closed-glyph: '\2665';
+}
+.Club {
+  --open-glyph: '\2667';
+  --closed-glyph: '\2663';
+}
+.Diamond {
+  --open-glyph: '\2662';
+  --closed-glyph: '\2666';
+}
+
 .card-container {
   position: relative;
-	width: 100%;		/* desired width */
-}
-.card-container::before {
-  content: "";
-  display: block;
-  padding-top: 100%;
+	width: 100%;
+
+  &::before {
+    content: '';
+    display: block;
+    padding-top: 140%; // cards are 1:1.4
+  }
+
+  .card {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
 }
 
 .card {
@@ -131,36 +157,22 @@
     align-items: center;
   }
 
-  &.Spade::after {
-    content: '\2664';
-  }
-  &.Spade .suit::before,
-  &.Spade .suit::after {
-    content: '\2660';
-  }
-
-  &.Heart::after {
-    content: '\2661';
-  }
-  &.Heart .suit::before,
-  &.Heart .suit::after {
-    content: '\2665';
-  }
-
-  &.Club::after {
-    content: '\2667';
-  }
-  &.Club .suit::before,
-  &.Club .suit::after {
-    content: '\2663';
-  }
-
+  &.Spade::after,
+  &.Heart::after,
+  &.Club::after,
   &.Diamond::after {
-    content: '\2662';
+    content: var(--open-glyph);
   }
+
+  &.Spade .suit::before,
+  &.Heart .suit::before,
+  &.Club .suit::before,
   &.Diamond .suit::before,
+  &.Spade .suit::after,
+  &.Heart .suit::after,
+  &.Club .suit::after,
   &.Diamond .suit::after {
-    content: '\2666';
+    content: var(--closed-glyph);
   }
 
 }

@@ -4,98 +4,92 @@ body {
 body *, *::after {
   box-sizing: border-box; }
 :root {
-  --spacing: 10px; }
+  --spacing: 10px;
+  --open-circle: '\25EF'; }
 
 #game-board {
+  position: relative;
+  z-index: 0;
   background-color: green;
   width: 100vw;
   height: 100vh;
   padding: var(--spacing);
+  box-sizing: border-box;
+  overflow: hidden;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(5, 1fr);
+  grid-template-rows: repeat(6, 1fr);
   grid-gap: var(--spacing); }
-  #game-board .pile::after,
-  #game-board .stack::after,
-  #game-board .deck::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 100%;
-    border: 1px solid yellow;
-    border-radius: 5px; }
-  #game-board .card {
-    position: absolute; }
   #game-board .pile,
   #game-board .stack,
   #game-board .deal,
   #game-board .deck {
     position: relative; }
-  #game-board .deck::after,
-  #game-board .stack::after {
-    content: '\25EF';
-    color: rgba(255, 255, 0, 0.25);
-    font-size: 72px;
-    font-family: sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center; }
-  #game-board .pile {
-    grid-row: 1; }
-    #game-board .pile#pile-spade::after, #game-board .pile#pile-heart::after, #game-board .pile#pile-club::after, #game-board .pile#pile-diamond::after {
+    #game-board .pile .card-container::after,
+    #game-board .stack .card-container::after,
+    #game-board .deal .card-container::after,
+    #game-board .deck .card-container::after {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
       color: rgba(255, 255, 0, 0.25);
+      border: 1px solid yellow;
+      border-radius: 5px;
       font-size: 72px;
       font-family: sans-serif;
       display: flex;
       justify-content: center;
-      align-items: center; }
-    #game-board .pile#pile-spade::after {
-      content: '\2664'; }
-    #game-board .pile#pile-heart::after {
-      content: '\2661'; }
-    #game-board .pile#pile-club::after {
-      content: '\2667'; }
-    #game-board .pile#pile-diamond::after {
-      content: '\2662'; }
+      align-items: center;
+      z-index: -1; }
+  #game-board .deck .card-container::after,
+  #game-board .stack .card-container::after {
+    content: var(--open-circle); }
+  #game-board .pile {
+    grid-row: 1; }
+    #game-board .pile .card-container::after {
+      content: var(--open-glyph); }
   #game-board .stack {
     grid-row: 3; }
     #game-board .stack .card:nth-child(1) {
       top: 0px; }
     #game-board .stack .card:nth-child(2) {
-      top: 30px; }
+      top: 40px; }
     #game-board .stack .card:nth-child(3) {
-      top: 60px; }
+      top: 80px; }
     #game-board .stack .card:nth-child(4) {
-      top: 90px; }
-    #game-board .stack .card:nth-child(5) {
       top: 120px; }
+    #game-board .stack .card:nth-child(5) {
+      top: 160px; }
     #game-board .stack .card:nth-child(6) {
-      top: 150px; }
+      top: 200px; }
     #game-board .stack .card:nth-child(7) {
-      top: 180px; }
-    #game-board .stack .card:nth-child(8) {
-      top: 210px; }
-    #game-board .stack .card:nth-child(9) {
       top: 240px; }
+    #game-board .stack .card:nth-child(8) {
+      top: 280px; }
+    #game-board .stack .card:nth-child(9) {
+      top: 320px; }
     #game-board .stack .card:nth-child(10) {
-      top: 270px; }
-    #game-board .stack .card:nth-child(11) {
-      top: 300px; }
-    #game-board .stack .card:nth-child(12) {
-      top: 330px; }
-    #game-board .stack .card:nth-child(13) {
       top: 360px; }
-    #game-board .stack .card.show {
+    #game-board .stack .card:nth-child(11) {
+      top: 400px; }
+    #game-board .stack .card:nth-child(12) {
+      top: 440px; }
+    #game-board .stack .card:nth-child(13) {
+      top: 480px; }
+    #game-board .stack .card:hover:not(:last-child):not(.hidden) {
       margin-top: -10px; }
-    #game-board .stack .card.show + .card {
-      margin-top: 10px; }
+      #game-board .stack .card:hover:not(:last-child):not(.hidden) + .card {
+        margin-top: 10px; }
   #game-board .deal {
     grid-row: 1;
     grid-column: 6; }
     #game-board .deal .card {
       transition-property: right;
       transition-duration: 0.25s;
-      transition-timing-function: ease-in-out; }
+      transition-timing-function: ease-in-out;
+      left: auto; }
     #game-board .deal .card:nth-last-child(3n+1) {
       right: 0px; }
     #game-board .deal .card:nth-last-child(3n+2) {
@@ -107,6 +101,36 @@ body *, *::after {
   #game-board .deck {
     grid-row: 1;
     grid-column: 7; }
+.Spade {
+  --open-glyph: '\2664';
+  --closed-glyph: '\2660'; }
+
+.Heart {
+  --open-glyph: '\2661';
+  --closed-glyph: '\2665'; }
+
+.Club {
+  --open-glyph: '\2667';
+  --closed-glyph: '\2663'; }
+
+.Diamond {
+  --open-glyph: '\2662';
+  --closed-glyph: '\2666'; }
+
+.card-container {
+  position: relative;
+  width: 100%; }
+  .card-container::before {
+    content: '';
+    display: block;
+    padding-top: 140%; }
+  .card-container .card {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0; }
+
 .card {
   width: 100%;
   height: 100%;
@@ -195,25 +219,16 @@ body *, *::after {
     display: flex;
     justify-content: center;
     align-items: center; }
-  .card.Spade::after {
-    content: '\2664'; }
+  .card.Spade::after, .card.Heart::after, .card.Club::after, .card.Diamond::after {
+    content: var(--open-glyph); }
   .card.Spade .suit::before,
-  .card.Spade .suit::after {
-    content: '\2660'; }
-  .card.Heart::after {
-    content: '\2661'; }
   .card.Heart .suit::before,
-  .card.Heart .suit::after {
-    content: '\2665'; }
-  .card.Club::after {
-    content: '\2667'; }
   .card.Club .suit::before,
-  .card.Club .suit::after {
-    content: '\2663'; }
-  .card.Diamond::after {
-    content: '\2662'; }
   .card.Diamond .suit::before,
+  .card.Spade .suit::after,
+  .card.Heart .suit::after,
+  .card.Club .suit::after,
   .card.Diamond .suit::after {
-    content: '\2666'; }
+    content: var(--closed-glyph); }
 
 /*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiIuL2luZGV4LXN0eWxlLmNzcyIsInNvdXJjZVJvb3QiOiIifQ==*/

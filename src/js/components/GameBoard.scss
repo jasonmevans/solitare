@@ -1,78 +1,63 @@
 :root {
   --spacing: 10px;
+  --open-circle: '\25EF';
 }
 
 #game-board {
+  position: relative;
+  z-index: 0;
+
   background-color: green;
+
   width: 100vw;
   height: 100vh;
 
   padding: var(--spacing);
 
   box-sizing: border-box;
+  overflow: hidden;
 
   display: grid;
-  grid-template-columns: repeat(7, auto);
-  grid-template-rows: repeat(5, auto);
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 1fr);
   grid-gap: var(--spacing);
 
-  .pile::after,
-  .stack::after,
-  .deck::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 100%;
-    border: 1px solid yellow;
-    border-radius: 5px;
-  }
-
-  .card {
-    position: absolute;
-  }
   .pile,
   .stack,
   .deal,
   .deck {
     position: relative;
-  }
 
-  .deck::after,
-  .stack::after {
-    content: '\25EF';
-    color: rgba(255, 255, 0, 0.25);
-    font-size: 72px;
-    font-family: sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .pile {
-    grid-row: 1;
-
-    &#pile-spade::after,
-    &#pile-heart::after,
-    &#pile-club::after,
-    &#pile-diamond::after {
+    .card-container::after {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
       color: rgba(255, 255, 0, 0.25);
+      border: 1px solid yellow;
+      border-radius: 5px;
       font-size: 72px;
       font-family: sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
+      z-index: -1;
     }
-    &#pile-spade::after {
-      content: '\2664';
+  }
+
+  .deck,
+  .stack {
+    .card-container::after {
+      content: var(--open-circle);
     }
-    &#pile-heart::after {
-      content: '\2661';
-    }
-    &#pile-club::after {
-      content: '\2667';
-    }
-    &#pile-diamond::after {
-      content: '\2662';
+  }
+
+  .pile {
+    grid-row: 1;
+
+    .card-container::after {
+      content: var(--open-glyph);
     }
   }
   .stack {
@@ -80,15 +65,15 @@
 
     @for $i from 1 through 13 {
       .card:nth-child(#{$i}) {
-        top: ($i - 1) * 30px;
+        top: ($i - 1) * 40px;
       }
     }
 
-    .card.show {
+    .card:hover:not(:last-child):not(.hidden) {
       margin-top: -10px;
-    }
-    .card.show + .card {
-      margin-top: 10px;
+      & + .card {
+        margin-top: 10px;
+      }
     }
   }
   .deal {
@@ -99,6 +84,7 @@
       transition-property: right;
       transition-duration: 0.25s;
       transition-timing-function: ease-in-out;
+      left: auto;
     }
     .card:nth-last-child(3n+1) {
       right: 0px;

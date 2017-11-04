@@ -89,19 +89,6 @@ export default class GameBoard {
         }
       });
 
-      stackEl.addEventListener('mouseover', (e) => {
-        const el = e.target;
-        if (el.classList.contains('card') && !el.isSameNode(stackEl.lastChild) && !el.playingCard.hidden) {
-          el.classList.add('show');
-        }
-      });
-      stackEl.addEventListener('mouseout', (e) => {
-        const el = e.target;
-        if (el.classList.contains('card') && !el.isSameNode(stackEl.lastChild) && !el.playingCard.hidden) {
-          el.classList.remove('show');
-        }
-      });
-
     });
 
     this[Symbols.piles].forEach(pileEl => {
@@ -215,20 +202,27 @@ export default class GameBoard {
     board.setAttribute('id', 'game-board');
     document.body.appendChild(board);
 
-    function appendNode(parent, cls, id) {
+    function appendNode(parent, type, cls) {
       const node = document.createElement('div');
-      node.setAttribute('id', id);
-      if (cls instanceof Array) {
-        cls.forEach(c => node.classList.add(c || id));
-      } else {
-        node.classList.add(cls || id);
+      if (type) {
+        node.classList.add(type);
       }
+      node.classList.add(cls);
       parent.appendChild(node);
+      const container = document.createElement('div');
+      container.classList.add('card-container');
+      node.appendChild(container);
     }
 
-    ['pile-spade', 'pile-heart', 'pile-club', 'pile-diamond'].forEach(appendNode.bind(null, board, ['pile', 'card-container']));
-    ['deck', 'deal'].forEach(appendNode.bind(null, board, [null, 'card-container'])); // yeah this is weird... to-do clean this up.
-    ['stack-1', 'stack-2', 'stack-3', 'stack-4', 'stack-5', 'stack-6', 'stack-7'].forEach(appendNode.bind(null, board, ['stack', 'card-container']));
+    ['Spade', 'Heart', 'Club', 'Diamond']
+      .forEach(appendNode.bind(null, board, 'pile'));
+
+    ['deal', 'deck']
+      .forEach(appendNode.bind(null, board, null));
+
+    ['stack-1', 'stack-2', 'stack-3', 'stack-4', 'stack-5', 'stack-6', 'stack-7']
+      .forEach(appendNode.bind(null, board, 'stack'));
+
   }
 
   static get Symbols() {
@@ -239,15 +233,15 @@ export default class GameBoard {
     return this.el.querySelectorAll('.card');
   }
   get [Symbols.deck]() {
-    return this.el.querySelector('#deck');
+    return this.el.querySelector('.deck .card-container');
   }
   get [Symbols.deal]() {
-    return this.el.querySelector('#deal');
+    return this.el.querySelector('.deal .card-container');
   }
   get [Symbols.stacks]() {
-    return this.el.querySelectorAll('.stack');
+    return this.el.querySelectorAll('.stack .card-container');
   }
   get [Symbols.piles]() {
-    return this.el.querySelectorAll('.pile');
+    return this.el.querySelectorAll('.pile .card-container');
   }
 }
