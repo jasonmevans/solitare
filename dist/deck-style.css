@@ -1,16 +1,20 @@
 body {
+  font-family: sans-serif;
   margin: 0; }
 
-body *, *::after {
+body *, *::before, *::after {
   box-sizing: border-box; }
 :root {
-  --spacing: 10px;
+  --spacing: 0.125em;
   --open-circle: '\25EF'; }
+
+body {
+  font-size: 128px;
+  background-color: green; }
 
 #game-board {
   position: relative;
   z-index: 0;
-  background-color: green;
   width: 100vw;
   height: 100vh;
   padding: var(--spacing);
@@ -20,87 +24,88 @@ body *, *::after {
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(6, 1fr);
   grid-gap: var(--spacing); }
-  #game-board .pile,
-  #game-board .stack,
-  #game-board .deal,
-  #game-board .deck {
-    position: relative; }
-    #game-board .pile .card-container::after,
-    #game-board .stack .card-container::after,
-    #game-board .deal .card-container::after,
-    #game-board .deck .card-container::after {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      color: rgba(255, 255, 0, 0.25);
-      border: 1px solid yellow;
-      border-radius: 5px;
-      font-size: 72px;
-      font-family: sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: -1; }
-  #game-board .deck .card-container::after,
-  #game-board .stack .card-container::after {
-    content: var(--open-circle); }
-  #game-board .pile {
-    grid-row: 1; }
-    #game-board .pile .card-container::after {
-      content: var(--open-glyph); }
-  #game-board .stack {
-    grid-row: 3; }
-    #game-board .stack .card:nth-child(1) {
-      top: 0px; }
-    #game-board .stack .card:nth-child(2) {
-      top: 40px; }
-    #game-board .stack .card:nth-child(3) {
-      top: 80px; }
-    #game-board .stack .card:nth-child(4) {
-      top: 120px; }
-    #game-board .stack .card:nth-child(5) {
-      top: 160px; }
-    #game-board .stack .card:nth-child(6) {
-      top: 200px; }
-    #game-board .stack .card:nth-child(7) {
-      top: 240px; }
-    #game-board .stack .card:nth-child(8) {
-      top: 280px; }
-    #game-board .stack .card:nth-child(9) {
-      top: 320px; }
-    #game-board .stack .card:nth-child(10) {
-      top: 360px; }
-    #game-board .stack .card:nth-child(11) {
-      top: 400px; }
-    #game-board .stack .card:nth-child(12) {
-      top: 440px; }
-    #game-board .stack .card:nth-child(13) {
-      top: 480px; }
-    #game-board .stack .card:hover:not(:last-child):not(.hidden) {
-      margin-top: -10px; }
-      #game-board .stack .card:hover:not(:last-child):not(.hidden) + .card {
-        margin-top: 10px; }
-  #game-board .deal {
-    grid-row: 1;
-    grid-column: 6; }
-    #game-board .deal .card {
-      transition-property: right;
-      transition-duration: 0.25s;
-      transition-timing-function: ease-in-out;
-      left: auto; }
-    #game-board .deal .card:nth-last-child(3n+1) {
-      right: 0px; }
-    #game-board .deal .card:nth-last-child(3n+2) {
-      right: 20px; }
-    #game-board .deal .card:nth-last-child(3n+3) {
-      right: 40px; }
-    #game-board .deal .card:nth-last-child(n+4) {
-      right: 0px; }
-  #game-board .deck {
-    grid-row: 1;
-    grid-column: 7; }
+
+.card {
+  transition-property: all;
+  transition-duration: 0.25s;
+  transition-timing-function: ease-in-out; }
+
+.card-container::after {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  color: rgba(255, 255, 0, 0.25);
+  border: 1px solid yellow;
+  border-radius: 5px;
+  font-size: 0.75em;
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: -1; }
+
+.deck .card-container::after,
+.stack .card-container::after {
+  content: var(--open-circle); }
+
+.pile {
+  grid-row: 1; }
+  .pile .card-container::after {
+    content: var(--open-glyph); }
+
+.stack {
+  grid-row: 3; }
+  .stack .card {
+    transition-duration: 0.1s; }
+  .stack .card:nth-child(1) {
+    top: 0em; }
+  .stack .card:nth-child(2) {
+    top: 0.25em; }
+  .stack .card:nth-child(3) {
+    top: 0.5em; }
+  .stack .card:nth-child(4) {
+    top: 0.75em; }
+  .stack .card:nth-child(5) {
+    top: 1em; }
+  .stack .card:nth-child(6) {
+    top: 1.25em; }
+  .stack .card:nth-child(7) {
+    top: 1.5em; }
+  .stack .card:nth-child(8) {
+    top: 1.75em; }
+  .stack .card:nth-child(9) {
+    top: 2em; }
+  .stack .card:nth-child(10) {
+    top: 2.25em; }
+  .stack .card:nth-child(11) {
+    top: 2.5em; }
+  .stack .card:nth-child(12) {
+    top: 2.75em; }
+  .stack .card:nth-child(13) {
+    top: 3em; }
+  .stack .card:hover:not(:last-child):not(.hidden) {
+    margin-top: -0.125em; }
+    .stack .card:hover:not(:last-child):not(.hidden) + .card {
+      margin-top: 0.125em; }
+
+.deal {
+  grid-row: 1;
+  grid-column: 6; }
+  .deal .card {
+    left: auto; }
+  .deal .card:nth-last-child(3n+1) {
+    right: 0; }
+  .deal .card:nth-last-child(3n+2) {
+    right: 0.25em; }
+  .deal .card:nth-last-child(3n+3) {
+    right: 0.5em; }
+  .deal .card:nth-last-child(n+4) {
+    right: 0; }
+
+.deck {
+  grid-row: 1;
+  grid-column: 7; }
 .Spade {
   --open-glyph: '\2664';
   --closed-glyph: '\2660'; }
@@ -117,6 +122,45 @@ body *, *::after {
   --open-glyph: '\2662';
   --closed-glyph: '\2666'; }
 
+.Ace {
+  --glyph: 'A'; }
+
+.Two {
+  --glyph: '2'; }
+
+.Three {
+  --glyph: '3'; }
+
+.Four {
+  --glyph: '4'; }
+
+.Five {
+  --glyph: '5'; }
+
+.Six {
+  --glyph: '6'; }
+
+.Seven {
+  --glyph: '7'; }
+
+.Eight {
+  --glyph: '8'; }
+
+.Nine {
+  --glyph: '9'; }
+
+.Ten {
+  --glyph: '10'; }
+
+.Jack {
+  --glyph: 'J'; }
+
+.Queen {
+  --glyph: 'Q'; }
+
+.King {
+  --glyph: 'K'; }
+
 .card-container {
   position: relative;
   width: 100%; }
@@ -124,14 +168,10 @@ body *, *::after {
     content: '';
     display: block;
     padding-top: 140%; }
-  .card-container .card {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0; }
 
 .card {
+  position: absolute;
+  top: 0;
   width: 100%;
   height: 100%;
   background-color: white;
@@ -148,13 +188,11 @@ body *, *::after {
   .card .suit::before,
   .card .suit::after {
     position: absolute;
-    display: block;
-    font-family: sans-serif;
-    font-size: 24px;
+    font-size: 0.25em;
     text-align: center;
-    width: 32px; }
+    width: 1.5em; }
   .card .rank::before {
-    top: 32px;
+    top: 1.25em;
     left: 0; }
   .card .suit::before {
     top: 0;
@@ -163,7 +201,7 @@ body *, *::after {
   .card .suit::after {
     transform: rotate(180deg); }
   .card .rank::after {
-    bottom: 32px;
+    bottom: 1.25em;
     right: 0; }
   .card .suit::after {
     bottom: 0;
@@ -172,63 +210,19 @@ body *, *::after {
     color: black; }
   .card.Heart, .card.Diamond {
     color: red; }
-  .card.Ace .rank::before,
-  .card.Ace .rank::after {
-    content: 'A'; }
-  .card.Two .rank::before,
-  .card.Two .rank::after {
-    content: '2'; }
-  .card.Three .rank::before,
-  .card.Three .rank::after {
-    content: '3'; }
-  .card.Four .rank::before,
-  .card.Four .rank::after {
-    content: '4'; }
-  .card.Five .rank::before,
-  .card.Five .rank::after {
-    content: '5'; }
-  .card.Six .rank::before,
-  .card.Six .rank::after {
-    content: '6'; }
-  .card.Seven .rank::before,
-  .card.Seven .rank::after {
-    content: '7'; }
-  .card.Eight .rank::before,
-  .card.Eight .rank::after {
-    content: '8'; }
-  .card.Nine .rank::before,
-  .card.Nine .rank::after {
-    content: '9'; }
-  .card.Ten .rank::before,
-  .card.Ten .rank::after {
-    content: '10'; }
-  .card.Jack .rank::before,
-  .card.Jack .rank::after {
-    content: 'J'; }
-  .card.Queen .rank::before,
-  .card.Queen .rank::after {
-    content: 'Q'; }
-  .card.King .rank::before,
-  .card.King .rank::after {
-    content: 'K'; }
-  .card.Spade::after, .card.Heart::after, .card.Club::after, .card.Diamond::after {
+  .card .rank::before,
+  .card .rank::after {
+    content: var(--glyph); }
+  .card .suit::before,
+  .card .suit::after {
+    content: var(--closed-glyph); }
+  .card::after {
+    content: var(--open-glyph);
     width: 100%;
     height: 100%;
-    font-size: 72px;
-    font-family: sans-serif;
+    font-size: 0.75em;
     display: flex;
     justify-content: center;
     align-items: center; }
-  .card.Spade::after, .card.Heart::after, .card.Club::after, .card.Diamond::after {
-    content: var(--open-glyph); }
-  .card.Spade .suit::before,
-  .card.Heart .suit::before,
-  .card.Club .suit::before,
-  .card.Diamond .suit::before,
-  .card.Spade .suit::after,
-  .card.Heart .suit::after,
-  .card.Club .suit::after,
-  .card.Diamond .suit::after {
-    content: var(--closed-glyph); }
 
 /*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiIuL2RlY2stc3R5bGUuY3NzIiwic291cmNlUm9vdCI6IiJ9*/

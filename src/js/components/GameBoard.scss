@@ -1,9 +1,10 @@
 :root {
-  --spacing: 10px;
+  --spacing: 0.125em;
   --open-circle: '\25EF';
 }
 
 body {
+  font-size: 128px; // base font size -> 1.0em
   background-color: green;
 }
 
@@ -39,7 +40,7 @@ body {
   color: rgba(255, 255, 0, 0.25);
   border: 1px solid yellow;
   border-radius: 5px;
-  font-size: 72px;
+  font-size: 0.75em;
   font-family: sans-serif;
   display: flex;
   justify-content: center;
@@ -70,14 +71,14 @@ body {
 
   @for $i from 1 through 13 {
     .card:nth-child(#{$i}) {
-      top: ($i - 1) * 40px;
+      top: ($i - 1) * 0.25em;
     }
   }
 
   .card:hover:not(:last-child):not(.hidden) {
-    margin-top: -10px;
+    margin-top: -0.125em;
     & + .card {
-      margin-top: 10px;
+      margin-top: 0.125em;
     }
   }
 }
@@ -89,16 +90,16 @@ body {
     left: auto;
   }
   .card:nth-last-child(3n+1) {
-    right: 0px;
+    right: 0;
   }
   .card:nth-last-child(3n+2) {
-    right: 30px;
+    right: 0.25em;
   }
   .card:nth-last-child(3n+3) {
-    right: 60px;
+    right: 0.5em;
   }
   .card:nth-last-child(n+4) {
-    right: 0px;
+    right: 0;
   }
 }
 .deck {
