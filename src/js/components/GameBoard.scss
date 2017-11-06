@@ -3,11 +3,13 @@
   --open-circle: '\25EF';
 }
 
+body {
+  background-color: green;
+}
+
 #game-board {
   position: relative;
   z-index: 0;
-
-  background-color: green;
 
   width: 100vw;
   height: 100vh;
@@ -21,86 +23,85 @@
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(6, 1fr);
   grid-gap: var(--spacing);
+}
 
-  .pile,
-  .stack,
-  .deal,
-  .deck {
-    position: relative;
+.card {
+  transition-property: all;
+  transition-duration: 0.25s;
+  transition-timing-function: ease-in-out;
+}
 
-    .card-container::after {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      color: rgba(255, 255, 0, 0.25);
-      border: 1px solid yellow;
-      border-radius: 5px;
-      font-size: 72px;
-      font-family: sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: -1;
+.card-container::after {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  color: rgba(255, 255, 0, 0.25);
+  border: 1px solid yellow;
+  border-radius: 5px;
+  font-size: 72px;
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: -1;
+}
+
+.deck,
+.stack {
+  .card-container::after {
+    content: var(--open-circle);
+  }
+}
+
+.pile {
+  grid-row: 1;
+
+  .card-container::after {
+    content: var(--open-glyph);
+  }
+}
+.stack {
+  grid-row: 3;
+
+  .card {
+    transition-duration: 0.1s;
+  }
+
+  @for $i from 1 through 13 {
+    .card:nth-child(#{$i}) {
+      top: ($i - 1) * 40px;
     }
   }
 
-  .deck,
-  .stack {
-    .card-container::after {
-      content: var(--open-circle);
+  .card:hover:not(:last-child):not(.hidden) {
+    margin-top: -10px;
+    & + .card {
+      margin-top: 10px;
     }
   }
+}
+.deal {
+  grid-row: 1;
+  grid-column: 6;
 
-  .pile {
-    grid-row: 1;
-
-    .card-container::after {
-      content: var(--open-glyph);
-    }
+  .card {
+    left: auto;
   }
-  .stack {
-    grid-row: 3;
-
-    @for $i from 1 through 13 {
-      .card:nth-child(#{$i}) {
-        top: ($i - 1) * 40px;
-      }
-    }
-
-    .card:hover:not(:last-child):not(.hidden) {
-      margin-top: -10px;
-      & + .card {
-        margin-top: 10px;
-      }
-    }
+  .card:nth-last-child(3n+1) {
+    right: 0px;
   }
-  .deal {
-    grid-row: 1;
-    grid-column: 6;
-
-    .card {
-      transition-property: right;
-      transition-duration: 0.25s;
-      transition-timing-function: ease-in-out;
-      left: auto;
-    }
-    .card:nth-last-child(3n+1) {
-      right: 0px;
-    }
-    .card:nth-last-child(3n+2) {
-      right: 20px;
-    }
-    .card:nth-last-child(3n+3) {
-      right: 40px;
-    }
-    .card:nth-last-child(n+4) {
-      right: 0px;
-    }
+  .card:nth-last-child(3n+2) {
+    right: 30px;
   }
-  .deck {
-    grid-row: 1;
-    grid-column: 7;
+  .card:nth-last-child(3n+3) {
+    right: 60px;
   }
+  .card:nth-last-child(n+4) {
+    right: 0px;
+  }
+}
+.deck {
+  grid-row: 1;
+  grid-column: 7;
 }

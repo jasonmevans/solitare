@@ -15,6 +15,48 @@
   --closed-glyph: '\2666';
 }
 
+.Ace {
+  --glyph: 'A';
+}
+.Two {
+  --glyph: '2';
+}
+.Three {
+  --glyph: '3';
+}
+.Four {
+  --glyph: '4';
+}
+.Five {
+  --glyph: '5';
+}
+.Six {
+  --glyph: '6';
+}
+.Seven {
+  --glyph: '7';
+}
+.Eight {
+  --glyph: '8';
+}
+.Nine {
+  --glyph: '9';
+}
+.Ten {
+  --glyph: '10';
+}
+.Jack {
+  --glyph: 'J';
+}
+.Queen {
+  --glyph: 'Q';
+}
+.King {
+  --glyph: 'K';
+}
+
+// define the card dimensions...
+// cards must be placed inside a .card-container to display 1:1.4
 .card-container {
   position: relative;
 	width: 100%;
@@ -24,17 +66,11 @@
     display: block;
     padding-top: 140%; // cards are 1:1.4
   }
-
-  .card {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
 }
 
 .card {
+  position: absolute;
+  top: 0;
   width: 100%;
   height: 100%;
   background-color: white;
@@ -55,8 +91,6 @@
   .suit::before,
   .suit::after {
     position: absolute;
-    display: block;
-    font-family: sans-serif;
     font-size: 24px;
     text-align: center;
     width: 32px;
@@ -70,7 +104,6 @@
     top: 0;
     left: 0;
   }
-
   .rank::after,
   .suit::after {
     transform: rotate(180deg);
@@ -91,88 +124,24 @@
     color: red;
   }
 
-  &.Ace .rank::before,
-  &.Ace .rank::after {
-    content: 'A';
-  }
-  &.Two .rank::before,
-  &.Two .rank::after {
-    content: '2';
-  }
-  &.Three .rank::before,
-  &.Three .rank::after {
-    content: '3';
-  }
-  &.Four .rank::before,
-  &.Four .rank::after {
-    content: '4';
-  }
-  &.Five .rank::before,
-  &.Five .rank::after {
-    content: '5';
-  }
-  &.Six .rank::before,
-  &.Six .rank::after {
-    content: '6';
-  }
-  &.Seven .rank::before,
-  &.Seven .rank::after {
-    content: '7';
-  }
-  &.Eight .rank::before,
-  &.Eight .rank::after {
-    content: '8';
-  }
-  &.Nine .rank::before,
-  &.Nine .rank::after {
-    content: '9';
-  }
-  &.Ten .rank::before,
-  &.Ten .rank::after {
-    content: '10';
-  }
-  &.Jack .rank::before,
-  &.Jack .rank::after {
-    content: 'J';
-  }
-  &.Queen .rank::before,
-  &.Queen .rank::after {
-    content: 'Q';
-  }
-  &.King .rank::before,
-  &.King .rank::after {
-    content: 'K';
+  .rank::before,
+  .rank::after {
+    content: var(--glyph);
   }
 
-  &.Spade::after,
-  &.Heart::after,
-  &.Club::after,
-  &.Diamond::after {
+  .suit::before,
+  .suit::after {
+    content: var(--closed-glyph);
+  }
+
+  &::after {
+    content: var(--open-glyph);
     width: 100%;
     height: 100%;
     font-size: 72px;
-    font-family: sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-
-  &.Spade::after,
-  &.Heart::after,
-  &.Club::after,
-  &.Diamond::after {
-    content: var(--open-glyph);
-  }
-
-  &.Spade .suit::before,
-  &.Heart .suit::before,
-  &.Club .suit::before,
-  &.Diamond .suit::before,
-  &.Spade .suit::after,
-  &.Heart .suit::after,
-  &.Club .suit::after,
-  &.Diamond .suit::after {
-    content: var(--closed-glyph);
   }
 
 }

@@ -1,8 +1,9 @@
 // @import('board');
 body {
+  font-family: sans-serif;
   margin: 0;
 }
 
-body *, *::after {
+body *, *::before, *::after {
   box-sizing: border-box;
 }
