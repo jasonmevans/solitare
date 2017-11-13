@@ -11,6 +11,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const deck = new CardDeck().revealAll();
 
-  deck.forEach(card => board.appendChild(card.el));
+  deck.forEach(card => {
+    const cont = document.createElement('div');
+    cont.classList.add('card-container');
+    cont.appendChild(card.el);
+    board.appendChild(cont);
+  });
 
 });

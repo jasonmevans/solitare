@@ -5,15 +5,18 @@
 
 body {
   font-size: 128px; // base font size -> 1.0em
-  background-color: green;
+  background: radial-gradient(at 100% 100%, #004000, #008000);
+  background-color: #008000;
+  height: 100vh;
 }
 
 #game-board {
+  font-size: 6.6vw;
+
   position: relative;
   z-index: 0;
 
-  width: 100vw;
-  height: 100vh;
+  height: 100%;
 
   padding: var(--spacing);
 
