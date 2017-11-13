@@ -2,7 +2,7 @@ import 'babel-polyfill';
 
 import 'Styles/style.scss';
 
-import { default as Solitare } from './Solitare';
+import { Solitare } from './Solitare';
 
 document.addEventListener('DOMContentLoaded', function() {
   const game = new Solitare();

@@ -1,6 +1,7 @@
 import './GameBoard.scss';
 
-import { default as Logger } from '../Logger';
+import { Logger } from '../Logger';
+
 const Symbols = {
   cards: Symbol('cards'),
   board: Symbol('board'),
@@ -10,7 +11,7 @@ const Symbols = {
   piles: Symbol('piles')
 };
 
-export default class GameBoard {
+export class GameBoard {
   constructor(rules, deck, draggable = true) {
     if (!draggable) return;
 

@@ -1,11 +1,11 @@
-import { default as Card } from './Card';
+import { Card } from './Card';
 
 const Symbols = {
   all: Symbol('all'),
   CardClass: Symbol('CardClass')
 };
 
-export default class CardCollection extends Array {
+export class CardCollection extends Array {
   constructor() {
     super(...arguments);
 

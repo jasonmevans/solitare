@@ -1,13 +1,13 @@
 import './PlayingCard.scss';
 
-import { default as Card } from '../Card';
+import { Card } from '../Card';
 
 const Symbols = {
   red: Symbol('red'),
   black: Symbol('black')
 };
 
-export default class PlayingCard extends Card {
+export class PlayingCard extends Card {
   constructor() {
     super(...arguments);
 

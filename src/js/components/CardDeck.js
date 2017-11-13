@@ -1,7 +1,7 @@
-import { default as CardCollection } from '../CardCollection';
-import { default as PlayingCard } from './PlayingCard';
+import { CardCollection } from '../CardCollection';
+import { PlayingCard } from './PlayingCard';
 
-export default class CardDeck extends CardCollection {
+export class CardDeck extends CardCollection {
   revealAll() {
     this.forEach(card => card.reveal());
     return this;

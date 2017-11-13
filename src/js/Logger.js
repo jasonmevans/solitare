@@ -1,4 +1,4 @@
-export default class Logger {
+export class Logger {
   static log() {
     console.log(...arguments);
   }
