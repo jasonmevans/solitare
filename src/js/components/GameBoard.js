@@ -1,6 +1,12 @@
 import './GameBoard.scss';
 
+import { mix } from 'mixwith';
+import { Renderable } from '../mixins/Renderable';
 import { Logger } from '../Logger';
+import { Stack } from './Stack';
+import { Pile } from './Pile';
+import { Deal } from './Deal';
+import { Deck } from './Deck';
 
 const Symbols = {
   cards: Symbol('cards'),
@@ -11,19 +17,34 @@ const Symbols = {
   piles: Symbol('piles')
 };
 
-export class GameBoard {
-  constructor(rules, deck, draggable = true) {
-    if (!draggable) return;
+export class GameBoard extends mix(class {}).with(Renderable) {
+  constructor(rules, deck) {
+    super(document.createElement('div'));
 
-    this.setupDOM();
+    this.el.setAttribute('id', 'game-board');
+
+    this.stacks = Array(7).fill((i) => new Stack('stack-'+i)).map((fn, i) => fn(i));
+    this.piles = deck[deck.constructor.Symbols.CardClass].suits.map(suit => new Pile(suit));
+
+    this.deck = new Deck();
+    this.deal = new Deal();
 
     this.rules = rules;
-    this.el = document.querySelector('#game-board');
 
     deck.forEach(card => {
-      this[Symbols.deck].appendChild(card.el);
+      card.renderTo(this.deck.cardContainer);
     });
+  }
 
+  renderTo(target) {
+    this.piles.forEach(pile => pile.renderTo(this.el));
+    this.deal.renderTo(this.el);
+    this.deck.renderTo(this.el);
+    this.stacks.forEach(stack => stack.renderTo(this.el));
+    super.renderTo(target);
+  }
+
+  setupEvents() {
     this[Symbols.deck].addEventListener('click', (e) => {
       e.stopPropagation();
 
@@ -31,7 +52,7 @@ export class GameBoard {
       const dealEl = this[Symbols.deal];
 
       if (deckEl.hasChildNodes()) {
-        this.flip(this.deal(3));
+        this.flip(this.dealCards(3));
       } else {
         // move all cards from #deal to #deck
         Array.from(dealEl.childNodes)
@@ -158,7 +179,7 @@ export class GameBoard {
 
   init() {
     this[Symbols.stacks].forEach((stack, index) => {
-      this.deal(index + 1).forEach((card, i) => {
+      this.dealCards(index + 1).forEach((card, i) => {
         if (i === index) {
           card.playingCard.reveal();
         }
@@ -168,7 +189,7 @@ export class GameBoard {
 
     Logger.log('--------------------------------------------');
 
-    this.flip(this.deal(3));
+    this.flip(this.dealCards(3));
   }
 
   getCardEls(cardIds, delim = '|') {

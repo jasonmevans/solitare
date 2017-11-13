@@ -1,5 +1,7 @@
 import './PlayingCard.scss';
 
+import { mix } from 'mixwith';
+import { Renderable } from '../mixins/Renderable';
 import { Card } from '../Card';
 
 const Symbols = {
@@ -7,23 +9,21 @@ const Symbols = {
   black: Symbol('black')
 };
 
-export class PlayingCard extends Card {
-  constructor() {
-    super(...arguments);
+export class PlayingCard extends mix(Card).with(Renderable) {
+  constructor(rank, suit) {
+    super(document.createElement('div'), rank, suit);
 
-    const cardEl = document.createElement('div');
     const suitEl = document.createElement('span');
     const rankEL = document.createElement('span');
 
-    cardEl.classList.add('card');
+    this.el.classList.add('card');
     suitEl.classList.add('suit');
     rankEL.classList.add('rank');
 
-    cardEl.appendChild(suitEl);
-    cardEl.appendChild(rankEL);
+    this.el.appendChild(suitEl);
+    this.el.appendChild(rankEL);
 
-    cardEl.playingCard = this;
-    this.el = cardEl;
+    this.el.playingCard = this;
 
     this.conceal();
   }
