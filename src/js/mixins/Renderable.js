@@ -7,7 +7,6 @@ export const Renderable = Mixin((superclass) => class extends superclass {
   }
   renderTo(target) {
     if (this.el) {
-      target.appendChild(this.el);
       if (target instanceof Renderable) {
         target.el.appendChild(this.el);
       } else {

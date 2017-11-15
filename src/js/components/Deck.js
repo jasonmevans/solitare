@@ -1,6 +1,7 @@
 import { mix, Mixin } from 'mixwith';
 import { Renderable } from '../mixins/Renderable';
 import { CardContainer } from './CardContainer';
+import { Logger } from '../Logger';
 
 export class Deck extends mix(class {}).with(Renderable) {
   constructor() {
@@ -11,5 +12,27 @@ export class Deck extends mix(class {}).with(Renderable) {
     this.cardContainer = new CardContainer();
     this.cardContainer.renderTo(this);
   }
+  renderTo(target) {
+    super.renderTo(...arguments);
 
+    this.el.addEventListener('click', (e) => {
+      e.stopPropagation();
+
+      const dealEl = target.deal.cardContainer.el;
+
+      if (this.cardContainer.el.hasChildNodes()) {
+        target.flip(target.dealCards(3));
+      } else {
+        // move all cards from #deal to #deck
+        Array.from(dealEl.children)
+        .reverse() // must reverse the stack of cards as you would flip the deal set over
+        .map(node => node.playingCard)
+        .forEach(card => {
+          card.conceal();
+          card.renderTo(this.cardContainer);
+        });
+        Logger.log('Turned over the deck...');
+      }
+    });
+  }
 }
