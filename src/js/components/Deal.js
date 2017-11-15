@@ -1,6 +1,7 @@
-import { mix, Mixin } from 'mixwith';
 import CardContainer from './CardContainer';
 import Renderable from '../mixins/Renderable';
+
+import { mix } from 'mixwith';
 
 export default class Deal extends mix(class {}).with(Renderable) {
   constructor() {
@@ -11,5 +12,4 @@ export default class Deal extends mix(class {}).with(Renderable) {
     this.cardContainer = new CardContainer();
     this.cardContainer.renderTo(this);
   }
-
 }

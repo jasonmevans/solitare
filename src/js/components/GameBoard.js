@@ -1,15 +1,16 @@
 import './GameBoard.scss';
 
-import { mix } from 'mixwith';
-import Renderable from '../mixins/Renderable';
-import Logger from '../Logger';
-import Stack from './Stack';
-import Pile from './Pile';
 import Deal from './Deal';
 import Deck from './Deck';
+import Pile from './Pile';
+import Logger from '../Logger';
+import Renderable from '../mixins/Renderable';
+import Stack from './Stack';
+
+import { mix } from 'mixwith';
 
 const Symbols = {
-  cards: Symbol('cards')
+  cards: Symbol('cards'),
 };
 
 export default class GameBoard extends mix(class {}).with(Renderable) {
@@ -18,7 +19,7 @@ export default class GameBoard extends mix(class {}).with(Renderable) {
 
     this.el.setAttribute('id', 'game-board');
 
-    this.stacks = Array(7).fill((i) => new Stack('stack-'+i)).map((fn, i) => fn(i));
+    this.stacks = Array(7).fill(i => new Stack(`stack-${i}`)).map((fn, i) => fn(i));
     this.piles = deck[deck.constructor.Symbols.CardClass].suits.map(suit => new Pile(suit));
 
     this.deck = new Deck();
@@ -26,7 +27,7 @@ export default class GameBoard extends mix(class {}).with(Renderable) {
 
     this.rules = rules;
 
-    deck.forEach(card => {
+    deck.forEach((card) => {
       card.renderTo(this.deck.cardContainer);
     });
   }
@@ -58,36 +59,11 @@ export default class GameBoard extends mix(class {}).with(Renderable) {
     this.el.addEventListener('dblclick', (e) => {
       const dblClickContainer = document.elementFromPoint(e.x, e.y).parentNode;
       if (dblClickContainer.isSameNode(this.deck.el)) {
-        return false;
-      }
-      if (e.target.classList.contains('card') && !e.target.playingCard.hidden) {
+        e.stopPropagation();
+      } else if (e.target.classList.contains('card') && !e.target.playingCard.hidden) {
         this.autoPlaceCard(e.target);
       }
     });
-  }
-
-  autoPlaceCard(cardEl) {
-    let dropPile = this.piles.find(pile => {
-      let topCard = pile.cardContainer.el.lastChild ?
-        pile.cardContainer.el.lastChild.playingCard : null;
-      return this.rules.drop.pile(cardEl.playingCard, topCard);
-    });
-
-    if (dropPile) {
-      cardEl.playingCard.renderTo(dropPile.cardContainer);
-      return;
-    }
-
-    let dropStack = this.stacks.find(stack => {
-      let topCard = stack.cardContainer.el.lastChild ?
-        stack.cardContainer.el.lastChild.playingCard : null;
-      return this.rules.drop.stack(cardEl.playingCard, topCard);
-    });
-
-    if (dropStack) {
-      cardEl.playingCard.renderTo(dropStack.cardContainer);
-      return;
-    }
   }
 
   init() {
@@ -105,15 +81,38 @@ export default class GameBoard extends mix(class {}).with(Renderable) {
     this.flip(this.dealCards(3));
   }
 
+  autoPlaceCard(cardEl) {
+    const dropPile = this.piles.find((pile) => {
+      const topCard = pile.cardContainer.el.lastChild ?
+        pile.cardContainer.el.lastChild.playingCard : null;
+      return this.rules.drop.pile(cardEl.playingCard, topCard);
+    });
+
+    if (dropPile) {
+      cardEl.playingCard.renderTo(dropPile.cardContainer);
+      return;
+    }
+
+    const dropStack = this.stacks.find((stack) => {
+      const topCard = stack.cardContainer.el.lastChild ?
+        stack.cardContainer.el.lastChild.playingCard : null;
+      return this.rules.drop.stack(cardEl.playingCard, topCard);
+    });
+
+    if (dropStack) {
+      cardEl.playingCard.renderTo(dropStack.cardContainer);
+    }
+  }
+
   getCardEls(cardIds, delim = '|') {
-    const query = cardIds.split(delim).map(id => '#'+id).join(',');
+    const query = cardIds.split(delim).map(id => `#${id}`).join(',');
     return [...this.el.querySelectorAll(query)];
   }
 
   dealCards(n) {
     const deckEl = this.deck.cardContainer.el;
     const cards = [];
-    for (let i = 0; i < n && deckEl.hasChildNodes(); i++ ) {
+    for (let i = 0; i < n && deckEl.hasChildNodes(); i += 1) {
       cards.push(deckEl.removeChild(deckEl.lastChild));
     }
     Logger.log(`Dealing cards: [${cards.map(card => card.playingCard).join(', ')}]`);
@@ -121,15 +120,14 @@ export default class GameBoard extends mix(class {}).with(Renderable) {
   }
 
   flip(cards) {
-    const dealEl = this.deal.cardContainer.el;
-    cards.forEach(card => {
-      dealEl.appendChild(card.playingCard.reveal().el);
+    cards.forEach((card) => {
+      card.playingCard.reveal().renderTo(this.deal.cardContainer);
     });
   }
 
   clear() {
     this[Symbols.cards].forEach(card => card.parentNode.remove(card));
-    Logger.log(`Cleared the board!`);
+    Logger.log('Cleared the board!');
   }
 
   static get Symbols() {

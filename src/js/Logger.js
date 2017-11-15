@@ -1,8 +1,8 @@
 export default class Logger {
-  static log() {
-    console.log(...arguments);
+  static log(...args) {
+    console.log(...args);
   }
-  static error() {
-    console.error(...arguments);
+  static error(...args) {
+    console.error(...args);
   }
 }

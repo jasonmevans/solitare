@@ -16,15 +16,9 @@ export default class Solitare {
   get rules() {
     return {
       drag: {
-        stack: (card, topCard) => {
-          return card === topCard;
-        },
-        pile: (card, topCard) => {
-          return card === topCard;
-        },
-        deal: (card, topCard) => {
-          return card === topCard;
-        }
+        stack: (card, topCard) => card === topCard,
+        pile: (card, topCard) => card === topCard,
+        deal: (card, topCard) => card === topCard,
       },
       drop: {
         stack: (dragCard, topCard) => {
@@ -38,14 +32,11 @@ export default class Solitare {
             return +dragCard === +topCard + 1 && dragCard.suit === topCard.suit;
           }
           return +dragCard === 1; // must be an ace
-        }
+        },
       },
       win(piles = []) {
-        return piles.every(pile => {
-          return pile.childNodes.length == 13;
-        });
-      }
+        return piles.every(pile => pile.childNodes.length === 13);
+      },
     };
   }
-
 }

@@ -16,7 +16,7 @@ export default class CardDeck extends CardCollection {
   }
 
   static get [Symbol.species]() {
-      return this;
+    return this;
   }
   get [Symbol.toStringTag]() {
     return 'CardDeck';

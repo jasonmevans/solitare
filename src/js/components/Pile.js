@@ -13,7 +13,7 @@ export default class Pile extends mix(class {}).with(Renderable) {
     this.cardContainer.renderTo(this);
   }
   renderTo(target) {
-    super.renderTo(...arguments);
+    super.renderTo(target);
 
     this.el.addEventListener('drop', (e) => {
       const cardId = e.dataTransfer.getData('text');

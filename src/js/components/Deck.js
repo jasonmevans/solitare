@@ -13,7 +13,7 @@ export default class Deck extends mix(class {}).with(Renderable) {
     this.cardContainer.renderTo(this);
   }
   renderTo(target) {
-    super.renderTo(...arguments);
+    super.renderTo(target);
 
     this.el.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -25,12 +25,12 @@ export default class Deck extends mix(class {}).with(Renderable) {
       } else {
         // move all cards from #deal to #deck
         [...dealEl.children]
-        .reverse() // must reverse the stack of cards as you would flip the deal set over
-        .map(node => node.playingCard)
-        .forEach(card => {
-          card.conceal();
-          card.renderTo(this.cardContainer);
-        });
+          .reverse() // must reverse the stack of cards as you would flip the deal set over
+          .map(node => node.playingCard)
+          .forEach((card) => {
+            card.conceal();
+            card.renderTo(this.cardContainer);
+          });
         Logger.log('Turned over the deck...');
       }
     });

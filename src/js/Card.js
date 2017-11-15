@@ -7,9 +7,8 @@ export default class Card {
   [Symbol.toPrimitive](type) {
     if (type === 'number') {
       return this.constructor.ranks.indexOf(this.rank) + 1;
-    } else {
-      return this.toString();
     }
+    return this.toString();
   }
 
   static get ranks() {

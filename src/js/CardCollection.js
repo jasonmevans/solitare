@@ -2,17 +2,17 @@ import Card from './Card';
 
 const Symbols = {
   all: Symbol('all'),
-  CardClass: Symbol('CardClass')
+  CardClass: Symbol('CardClass'),
 };
 
 export default class CardCollection extends Array {
   constructor(...args) {
     super(...args);
 
-    let CardClass = this[Symbols.CardClass];
+    const CardClass = this[Symbols.CardClass];
 
-    CardClass.suits.forEach(suit => {
-      CardClass.ranks.forEach(rank => {
+    CardClass.suits.forEach((suit) => {
+      CardClass.ranks.forEach((rank) => {
         this.push(new CardClass(rank, suit));
       });
     });
@@ -27,7 +27,7 @@ export default class CardCollection extends Array {
   }
 
   static get [Symbol.species]() {
-      return this;
+    return this;
   }
 
   get [Symbol.toStringTag]() {

@@ -6,7 +6,7 @@ import Card from '../Card';
 
 const Symbols = {
   red: Symbol('red'),
-  black: Symbol('black')
+  black: Symbol('black'),
 };
 
 export default class PlayingCard extends mix(Card).with(Renderable) {
@@ -29,7 +29,7 @@ export default class PlayingCard extends mix(Card).with(Renderable) {
   }
 
   get color() {
-    let suitMod = this.constructor.suits.indexOf(this.suit) % 2;
+    const suitMod = this.constructor.suits.indexOf(this.suit) % 2;
     return suitMod === 0 ? Symbols.black : Symbols.red;
   }
 
@@ -46,7 +46,7 @@ export default class PlayingCard extends mix(Card).with(Renderable) {
     return this;
   }
   conceal() {
-    [...this.el.classList].forEach(cls => {
+    [...this.el.classList].forEach((cls) => {
       if (cls !== 'card') {
         this.el.classList.remove(cls);
       }
@@ -59,10 +59,10 @@ export default class PlayingCard extends mix(Card).with(Renderable) {
   }
 
   static get [Symbol.species]() {
-      return this;
+    return this;
   }
   get [Symbol.toStringTag]() {
-    return 'PlayingCard: ' + this;
+    return `PlayingCard: ${this}`;
   }
 
   static get Symbols() {
@@ -83,7 +83,7 @@ export default class PlayingCard extends mix(Card).with(Renderable) {
       'Ten',
       'Jack',
       'Queen',
-      'King'
+      'King',
     ];
   }
   static get suits() {
@@ -91,8 +91,7 @@ export default class PlayingCard extends mix(Card).with(Renderable) {
       'Spade',
       'Heart',
       'Club',
-      'Diamond'
+      'Diamond',
     ];
   }
-
 }

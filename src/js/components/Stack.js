@@ -14,7 +14,7 @@ export default class Stack extends mix(class {}).with(Renderable) {
     this.cardContainer.renderTo(this);
   }
   renderTo(target) {
-    super.renderTo(...arguments);
+    super.renderTo(target);
 
     this.el.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -38,16 +38,16 @@ export default class Stack extends mix(class {}).with(Renderable) {
       if (!e.target.isSameNode(this.cardContainer.el.lastChild)) {
         e.stopPropagation();
 
-        let cardEls = [e.target];
+        const cardEls = [e.target];
 
         let cardEl = e.target;
         while (cardEl.nextSibling) {
           cardEls.push(cardEl.nextSibling);
-          cardEl = cardEls[cardEls.length-1];
+          cardEl = cardEls[cardEls.length - 1];
         }
 
-        e.dataTransfer.setData('text', cardEls.map(cardEl => cardEl.id).join('|'));
-        Logger.log(`Dragging multiple cards [${cardEls.map(cardEl => cardEl.playingCard).join(', ')}]`);
+        e.dataTransfer.setData('text', cardEls.map(el => el.id).join('|'));
+        Logger.log(`Dragging multiple cards [${cardEls.map(el => el.playingCard).join(', ')}]`);
       }
     });
     this.el.addEventListener('drop', (e) => {
