@@ -132,34 +132,6 @@ export default class GameBoard extends mix(class {}).with(Renderable) {
     Logger.log(`Cleared the board!`);
   }
 
-  // setupDOM() {
-  //   const board = document.createElement('div');
-  //   board.setAttribute('id', 'game-board');
-  //   document.body.appendChild(board);
-  //
-  //   function appendNode(parent, type, cls) {
-  //     const node = document.createElement('div');
-  //     if (type) {
-  //       node.classList.add(type);
-  //     }
-  //     node.classList.add(cls);
-  //     parent.appendChild(node);
-  //     const container = document.createElement('div');
-  //     container.classList.add('card-container');
-  //     node.appendChild(container);
-  //   }
-  //
-  //   ['Spade', 'Heart', 'Club', 'Diamond']
-  //     .forEach(appendNode.bind(null, board, 'pile'));
-  //
-  //   ['deal', 'deck']
-  //     .forEach(appendNode.bind(null, board, null));
-  //
-  //   ['stack-1', 'stack-2', 'stack-3', 'stack-4', 'stack-5', 'stack-6', 'stack-7']
-  //     .forEach(appendNode.bind(null, board, 'stack'));
-  //
-  // }
-
   static get Symbols() {
     return Symbols;
   }
@@ -167,16 +139,4 @@ export default class GameBoard extends mix(class {}).with(Renderable) {
   get [Symbols.cards]() {
     return this.el.querySelectorAll('.card');
   }
-  // get [Symbols.deck]() {
-  //   return this.el.querySelector('.deck .card-container');
-  // }
-  // get [Symbols.deal]() {
-  //   return this.el.querySelector('.deal .card-container');
-  // }
-  // get [Symbols.stacks]() {
-  //   return this.el.querySelectorAll('.stack .card-container');
-  // }
-  // get [Symbols.piles]() {
-  //   return this.el.querySelectorAll('.pile .card-container');
-  // }
 }
