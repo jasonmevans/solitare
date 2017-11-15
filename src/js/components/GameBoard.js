@@ -1,18 +1,18 @@
 import './GameBoard.scss';
 
 import { mix } from 'mixwith';
-import { Renderable } from '../mixins/Renderable';
-import { Logger } from '../Logger';
-import { Stack } from './Stack';
-import { Pile } from './Pile';
-import { Deal } from './Deal';
-import { Deck } from './Deck';
+import Renderable from '../mixins/Renderable';
+import Logger from '../Logger';
+import Stack from './Stack';
+import Pile from './Pile';
+import Deal from './Deal';
+import Deck from './Deck';
 
 const Symbols = {
   cards: Symbol('cards')
 };
 
-export class GameBoard extends mix(class {}).with(Renderable) {
+export default class GameBoard extends mix(class {}).with(Renderable) {
   constructor(rules, deck) {
     super(document.createElement('div'));
 

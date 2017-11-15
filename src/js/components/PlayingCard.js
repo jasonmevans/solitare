@@ -1,15 +1,15 @@
 import './PlayingCard.scss';
 
 import { mix } from 'mixwith';
-import { Renderable } from '../mixins/Renderable';
-import { Card } from '../Card';
+import Renderable from '../mixins/Renderable';
+import Card from '../Card';
 
 const Symbols = {
   red: Symbol('red'),
   black: Symbol('black')
 };
 
-export class PlayingCard extends mix(Card).with(Renderable) {
+export default class PlayingCard extends mix(Card).with(Renderable) {
   constructor(rank, suit) {
     super(document.createElement('div'), rank, suit);
 

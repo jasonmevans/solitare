@@ -2,8 +2,8 @@ import 'babel-polyfill';
 
 import 'Styles/style.scss';
 
-import { GameBoard } from 'Components/GameBoard';
-import { CardDeck } from 'Components/CardDeck';
+import CardDeck from 'Components/CardDeck';
+import GameBoard from 'Components/GameBoard';
 
 document.addEventListener('DOMContentLoaded', function() {
 

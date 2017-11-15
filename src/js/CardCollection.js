@@ -1,13 +1,13 @@
-import { Card } from './Card';
+import Card from './Card';
 
 const Symbols = {
   all: Symbol('all'),
   CardClass: Symbol('CardClass')
 };
 
-export class CardCollection extends Array {
-  constructor() {
-    super(...arguments);
+export default class CardCollection extends Array {
+  constructor(...args) {
+    super(...args);
 
     let CardClass = this[Symbols.CardClass];
 

@@ -1,8 +1,9 @@
 import { mix, Mixin } from 'mixwith';
-import { Renderable } from '../mixins/Renderable';
-import { CardContainer } from './CardContainer';
+import CardContainer from './CardContainer';
+import Logger from '../Logger';
+import Renderable from '../mixins/Renderable';
 
-export class Pile extends mix(class {}).with(Renderable) {
+export default class Pile extends mix(class {}).with(Renderable) {
   constructor(cls) {
     super(document.createElement('div'));
 

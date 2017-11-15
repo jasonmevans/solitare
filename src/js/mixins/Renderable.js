@@ -1,6 +1,6 @@
 import { Mixin } from 'mixwith';
 
-export const Renderable = Mixin((superclass) => class extends superclass {
+const Renderable = Mixin((superclass) => class extends superclass {
   constructor(el, ...args) {
     super(...args);
     this.el = el;
@@ -17,3 +17,5 @@ export const Renderable = Mixin((superclass) => class extends superclass {
     }
   }
 });
+
+export default Renderable;

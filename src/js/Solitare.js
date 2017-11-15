@@ -1,8 +1,8 @@
-import { Logger } from './Logger';
-import { CardDeck } from 'Components/CardDeck';
-import { GameBoard } from 'Components/GameBoard';
+import CardDeck from 'Components/CardDeck';
+import GameBoard from 'Components/GameBoard';
+import Logger from './Logger';
 
-export class Solitare {
+export default class Solitare {
   constructor() {
     this.deck = new CardDeck().shuffle();
     this.board = new GameBoard(this.rules, this.deck);
