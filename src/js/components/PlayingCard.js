@@ -46,7 +46,7 @@ export default class PlayingCard extends mix(Card).with(Renderable) {
     return this;
   }
   conceal() {
-    Array.from(this.el.classList).forEach(cls => {
+    [...this.el.classList].forEach(cls => {
       if (cls !== 'card') {
         this.el.classList.remove(cls);
       }

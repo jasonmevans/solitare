@@ -24,7 +24,7 @@ export default class Deck extends mix(class {}).with(Renderable) {
         target.flip(target.dealCards(3));
       } else {
         // move all cards from #deal to #deck
-        Array.from(dealEl.children)
+        [...dealEl.children]
         .reverse() // must reverse the stack of cards as you would flip the deal set over
         .map(node => node.playingCard)
         .forEach(card => {

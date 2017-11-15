@@ -52,7 +52,7 @@ export default class Stack extends mix(class {}).with(Renderable) {
     });
     this.el.addEventListener('drop', (e) => {
       const cardIds = e.dataTransfer.getData('text');
-      const dragCards = this.getCardEls(cardIds).map(cardEl => cardEl.playingCard);
+      const dragCards = target.getCardEls(cardIds).map(cardEl => cardEl.playingCard);
       const topCard = this.cardContainer.el.hasChildNodes() ?
         this.cardContainer.el.lastChild.playingCard : null;
 

@@ -67,7 +67,7 @@ export default class GameBoard extends mix(class {}).with(Renderable) {
   }
 
   autoPlaceCard(cardEl) {
-    let dropPile = Array.from(this.piles).find(pile => {
+    let dropPile = this.piles.find(pile => {
       let topCard = pile.cardContainer.el.lastChild ?
         pile.cardContainer.el.lastChild.playingCard : null;
       return this.rules.drop.pile(cardEl.playingCard, topCard);
@@ -78,7 +78,7 @@ export default class GameBoard extends mix(class {}).with(Renderable) {
       return;
     }
 
-    let dropStack = Array.from(this.stacks).find(stack => {
+    let dropStack = this.stacks.find(stack => {
       let topCard = stack.cardContainer.el.lastChild ?
         stack.cardContainer.el.lastChild.playingCard : null;
       return this.rules.drop.stack(cardEl.playingCard, topCard);
@@ -107,7 +107,7 @@ export default class GameBoard extends mix(class {}).with(Renderable) {
 
   getCardEls(cardIds, delim = '|') {
     const query = cardIds.split(delim).map(id => '#'+id).join(',');
-    return Array.from(this.el.querySelectorAll(query));
+    return [...this.el.querySelectorAll(query)];
   }
 
   dealCards(n) {
